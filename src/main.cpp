@@ -14,16 +14,12 @@ Contact: starstructor@gmail.com
 
 #include <QApplication>
 #include <QDir>
+#include <QList>
+#include <QString>
+#include <QDebug>
 
-#include <string>
-#include <iostream>
-#include <list>
-#include <algorithm>
 
-using std::string; 
-using std::list;
-
-list<string> getDirContents_r(QDir directory, const list<string> filters);
+QList<QString> getDirContents_r(QDir directory, const QList<QString> filters);
 
 int main(int argc, char* argv[])
 {
@@ -32,38 +28,40 @@ int main(int argc, char* argv[])
     Starstructor::MainWindow window;
     window.show();
 
-    list<string> dirContents = getDirContents_r(
+    auto dirContents = getDirContents_r(
         QDir{ Starstructor::SB_DIRECTORY }, 
-        list<string>{ "object", "material" });
+        QList<QString>{ "object", "material" });
+
+    qDebug() << "Parsed elements:  " + QString::number(dirContents.count());
 
 	return application.exec();
 }
 
 // Recursively iterate through a given directory
 // Optionally applies the given file extension filters
-list<string> getDirContents_r(QDir directory, const list<string> filters = {})
+QList<QString> getDirContents_r(QDir directory, const QList<QString> filters = {})
 {
-    const list<QFileInfo> fileList{ directory.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot).toStdList() };
-    list<string> matchingFiles{};
+    const QList<QFileInfo> fileList{ directory.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot) };
+    QList<QString> matchingFiles{};
 
     // Recursively iterate through directories
-    for (const QFileInfo file : fileList)
+    for (const auto& file : fileList)
     {
         if (file.isDir())
         {
-            matchingFiles.merge(getDirContents_r(QDir{ file.filePath() }, filters));
+            const auto recMatchingFiles = getDirContents_r(QDir{ file.filePath() }, filters);        
+            if (recMatchingFiles.count() != 0) matchingFiles.append(recMatchingFiles);
         }
         else
         {
-            const string suffix = file.suffix().toStdString();
+            const QString suffix = file.suffix();
 
-            for (string filter : filters)
+            for (const auto& filter : filters)
             {
                 if (suffix == filter)
                 {
-                    const string path = file.filePath().toStdString();
-                    matchingFiles.push_back(path);
-                    std::cout << path << std::endl;
+                    matchingFiles.push_back(file.filePath());
+                    qDebug() << file.filePath();
                 }
             }
         }
