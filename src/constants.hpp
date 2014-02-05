@@ -9,16 +9,10 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "gui/mainwindow.hpp"
-#include <QApplication>
+namespace Starstructor {
 
-int main(int argc, char* argv[])
-{
-	QApplication application{argc, argv};
+const int VERSION_MAJOR = 0;
+const int VERSION_MINOR = 1;
+const int VERSION_BUILD = 1;
 
-    Starstructor::MainWindow window;
-    window.show();
-
-	return application.exec();
 }
-

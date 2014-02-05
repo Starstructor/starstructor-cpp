@@ -55,8 +55,6 @@ TestResult.xml
 *.svclog
 *.scc
 *.embed.manifest
-*.rc
-*.res
 *.exp
 
 # Chutzpah Test files

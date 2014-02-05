@@ -1,13 +1,25 @@
+CONFIG += qt
+CONFIG += console
+
 QT += core gui
 QT += widgets
+QT += opengl
+
+win32
+{
+    RC_FILE = res/icon.rc
+}
 
 TARGET   = starstructor
 TEMPLATE = app
 
-SOURCES	+= 	src/*.cpp \
-			src/gui/*.cpp
+INCLUDEPATH += src/ 
+INCLUDEPATH += src/gui/
 
-HEADERS += 	src/*.hpp \
-			src/gui/*.hpp
+SOURCES += src/*.cpp
+SOURCES += src/gui/*.cpp
+            
+HEADERS += src/*.hpp 
+HEADERS += src/gui/*.hpp
 
-FORMS   +=  src/gui/*.ui
+FORMS   += src/gui/*.ui
