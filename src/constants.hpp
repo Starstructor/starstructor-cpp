@@ -15,4 +15,6 @@ const int VERSION_MAJOR = 0;
 const int VERSION_MINOR = 1;
 const int VERSION_BUILD = 1;
 
+const QString SB_DIRECTORY{"A:\\Development\\starboundgit\\master"};
+
 }
