@@ -17,6 +17,8 @@ Contact: starstructor@gmail.com
 #include <exception>
 #include <iostream>
 
+const int MAX_LOCK_TIME_MS = 5;
+
 int main(int argc, char* argv[])
 {
     QApplication application{ argc, argv };
@@ -30,7 +32,7 @@ int main(int argc, char* argv[])
     {
         try
         {
-            application.processEvents();
+            application.processEvents(QEventLoop::ProcessEventsFlag::AllEvents, MAX_LOCK_TIME_MS);
 
             if (!window.isVisible())
                 throw Starstructor::Except::Exception{ "test throw - closing application" };
