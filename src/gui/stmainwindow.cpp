@@ -13,7 +13,7 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace GUI {
 
-STMainWindow::STMainWindow(QWidget* parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow{parent}
 {
     m_mainWindow.setupUi(this);

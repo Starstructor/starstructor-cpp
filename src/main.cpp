@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 {
     QApplication application{ argc, argv };
 
-    Starstructor::GUI::STMainWindow window{};
+    Starstructor::GUI::MainWindow window{};
     window.show();
 
     bool running{ true };
@@ -33,9 +33,9 @@ int main(int argc, char* argv[])
             application.processEvents();
 
             if (!window.isVisible())
-                throw Starstructor::Exception::STException{ "test throw - closing application" };
+                throw Starstructor::Except::Exception{ "test throw - closing application" };
         }
-        catch (const Starstructor::Exception::STException& ex)
+        catch (const Starstructor::Except::Exception& ex)
         {
             std::cout << ex << std::endl;
             running = false;

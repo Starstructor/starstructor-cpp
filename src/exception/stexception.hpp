@@ -3,31 +3,31 @@ Starstructor, the Starbound Toolet
 Copyright (C) 2013-2014 Chris Stamford
 
 Source file contributers:
-Chris Stamford      contact: cstamford@gmail.com
+    Chris Stamford      contact: cstamford@gmail.com
 
 Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#ifndef ST_EXCEPTION_HPP
-#define ST_EXCEPTION_HPP
+#ifndef STEXCEPTION_HPP
+#define STEXCEPTION_HPP
 
 #include <string>
 #include <ostream>
 
-namespace Starstructor { namespace Exception {
+namespace Starstructor { namespace Except {
 
-class STException
+class Exception
 {
 public:
-    STException(const std::string message) throw()
+    Exception(const std::string message) throw()
         : m_message("General exception: " + message) 
     {}
 
-    virtual ~STException()
+    virtual ~Exception()
     {}
 
-    std::string STException::message() const throw()
+    std::string Exception::message() const throw()
     { 
         return m_message; 
     }
@@ -36,29 +36,29 @@ private:
     std::string m_message;
 };
 
-class STFileException : public STException
+class FileException : public Exception
 {
 public:
-    STFileException(const std::string message) throw()
-        : STException("File exception: " + message)
+    FileException(const std::string message) throw()
+        : Exception("File exception: " + message)
     {}
 
-    virtual ~STFileException()
+    virtual ~FileException()
     {}
 };
 
-class STJsonException : public STException
+class JsonException : public Exception
 {
 public:
-    STJsonException(const std::string message) throw()
-        : STJsonException("Json exception: " + message)
+    JsonException(const std::string message) throw()
+        : JsonException("Json exception: " + message)
     {}
 
-    virtual ~STJsonException()
+    virtual ~JsonException()
     {}
 };
 
-std::ostream& operator<<(std::ostream& os, const STException& ex) throw()
+std::ostream& operator<<(std::ostream& os, const Exception& ex) throw()
 {
     os << ex.message(); return os;
 }
@@ -67,4 +67,4 @@ std::ostream& operator<<(std::ostream& os, const STException& ex) throw()
 
 }
 
-#endif // ST_EXCEPTION_HPP
+#endif // STEXCEPTION_HPP

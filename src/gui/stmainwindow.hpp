@@ -9,23 +9,23 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#ifndef ST_MAINWINDOW_HPP
-#define ST_MAINWINDOW_HPP
+#ifndef STMAINWINDOW_HPP
+#define STMAINWINDOW_HPP
 
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 
 namespace Starstructor { namespace GUI {
 
-class STMainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    STMainWindow(QWidget* parent = nullptr);
-    STMainWindow(const STMainWindow& other) = delete;
-    STMainWindow(STMainWindow&& other) = delete;
-    STMainWindow& operator=(const STMainWindow& other) = delete;
+    MainWindow(QWidget* parent = nullptr);
+    MainWindow(const MainWindow& other) = delete;
+    MainWindow(MainWindow&& other) = delete;
+    MainWindow& operator=(const MainWindow& other) = delete;
 
 private:
     Ui::ApplicationWindow m_mainWindow;;
@@ -36,4 +36,4 @@ private:
 
 }
 
-#endif // ST_MAINWINDOW_HPP
+#endif // STMAINWINDOW_HPP
