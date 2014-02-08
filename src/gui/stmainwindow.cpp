@@ -9,14 +9,14 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "mainwindow.hpp"
+#include "stmainwindow.hpp"
 
 namespace Starstructor { namespace GUI {
 
-MainWindow::MainWindow(QWidget* parent) :
+STMainWindow::STMainWindow(QWidget* parent) :
     QMainWindow{parent}
 {
-    m_appWindow.setupUi(this);
+    m_mainWindow.setupUi(this);
 }
 
 }

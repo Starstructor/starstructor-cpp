@@ -9,8 +9,8 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "gui/mainwindow.hpp"
-#include "exception/editorexception.hpp"
+#include "gui/stmainwindow.hpp"
+#include "exception/stexception.hpp"
 
 #include <QApplication>
 
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 {
     QApplication application{ argc, argv };
 
-    Starstructor::GUI::MainWindow window{};
+    Starstructor::GUI::STMainWindow window{};
     window.show();
 
     bool running{ true };
@@ -33,9 +33,9 @@ int main(int argc, char* argv[])
             application.processEvents();
 
             if (!window.isVisible())
-                throw Starstructor::Exception::EditorException{ "test throw - quitting" };
+                throw Starstructor::Exception::STException{ "test throw - closing application" };
         }
-        catch (const Starstructor::Exception::EditorException& ex)
+        catch (const Starstructor::Exception::STException& ex)
         {
             std::cout << ex << std::endl;
             running = false;
