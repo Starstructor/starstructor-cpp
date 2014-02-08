@@ -15,7 +15,7 @@ Contact: starstructor@gmail.com
 #include <QMainWindow>
 #include "ui_mainwindow.h"
 
-namespace Starstructor {
+namespace Starstructor { namespace GUI {
 
 class MainWindow : public QMainWindow
 {
@@ -31,6 +31,8 @@ private:
     Ui::ApplicationWindow m_appWindow;
 
 };
+
+}
 
 }
 

@@ -10,41 +10,51 @@ Contact: starstructor@gmail.com
 */
 
 #include "gui/mainwindow.hpp"
-#include "constants.hpp"
+#include "exception/editorexception.hpp"
 
 #include <QApplication>
-#include <QDir>
-#include <QList>
-#include <QString>
-#include <QDebug>
 
-
-QList<QString> getDirContents_r(QDir directory, const QList<QString> filters);
+#include <exception>
+#include <iostream>
 
 int main(int argc, char* argv[])
 {
-	QApplication application{argc, argv};
+    QApplication application{ argc, argv };
 
-    Starstructor::MainWindow window;
+    Starstructor::GUI::MainWindow window{};
     window.show();
 
-    auto dirContents = getDirContents_r(
-        QDir{ Starstructor::SB_DIRECTORY }, 
-        QList<QString>{ "object", "material" });
+    bool running{ true };
 
-    qDebug() << "Parsed elements:  " + QString::number(dirContents.count());
+    while (running)
+    {
+        try
+        {
+            application.processEvents();
 
-	return application.exec();
+            if (!window.isVisible())
+                throw Starstructor::Exception::EditorException{ "test throw - quitting" };
+        }
+        catch (const Starstructor::Exception::EditorException& ex)
+        {
+            std::cout << ex << std::endl;
+            running = false;
+        }
+        catch (const std::exception& ex)
+        {
+            std::cout << "Unrecoverable STL exception: " << ex.what() << std::endl;
+            running = false;
+        }
+    }
 }
 
-// Recursively iterate through a given directory
+/*// Recursively iterate through a given directory
 // Optionally applies the given file extension filters
 QList<QString> getDirContents_r(QDir directory, const QList<QString> filters = {})
 {
     const QList<QFileInfo> fileList{ directory.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot) };
     QList<QString> matchingFiles{};
 
-    // Recursively iterate through directories
     for (const auto& file : fileList)
     {
         if (file.isDir())
@@ -58,14 +68,10 @@ QList<QString> getDirContents_r(QDir directory, const QList<QString> filters = {
 
             for (const auto& filter : filters)
             {
-                if (suffix == filter)
-                {
-                    matchingFiles.push_back(file.filePath());
-                    qDebug() << file.filePath();
-                }
+                if (suffix == filter) matchingFiles.push_back(file.filePath());
             }
         }
     }
 
     return matchingFiles;
-}
+}*/

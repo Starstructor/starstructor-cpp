@@ -10,19 +10,15 @@ Contact: starstructor@gmail.com
 */
 
 #include "mainwindow.hpp"
-#include "constants.hpp"
 
-namespace Starstructor {
+namespace Starstructor { namespace GUI {
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow{parent}
 {
     m_appWindow.setupUi(this);
+}
 
-    setWindowTitle(windowTitle() + " v" 
-        + QString::number(VERSION_MAJOR) + "." 
-        + QString::number(VERSION_MINOR) + "." 
-        + QString::number(VERSION_BUILD));
 }
 
 }
