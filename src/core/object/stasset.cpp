@@ -9,7 +9,7 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "core/world/stdungeonfile.hpp"
+#include "core/object/stasset.hpp"
 
 namespace Starstructor { namespace Core {
 

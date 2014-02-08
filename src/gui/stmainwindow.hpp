@@ -28,7 +28,7 @@ public:
     MainWindow& operator=(const MainWindow& other) = delete;
 
 private:
-    Ui::ApplicationWindow m_mainWindow;;
+    Ui::ApplicationWindow m_mainWindow;
 
 };
 

@@ -11,13 +11,22 @@ Contact: starstructor@gmail.com
 
 #include "gui/stmainwindow.hpp"
 #include "exception/stexception.hpp"
+#include "core/world/stworldfile.hpp"
 
 #include <QApplication>
+#include <QDir>
+#include <QFileInfo>
+#include <QJsonObject>
+#include <QDebug>
 
 #include <exception>
 #include <iostream>
 
-const int MAX_LOCK_TIME_MS = 5;
+const QString TEST_ASSET_DIR{ "A:\\Development\\starboundgit\\master\\assets" };
+const int MAX_LOCK_TIME_MS{ 5 };
+
+void testLoadingStuff();
+QList<QString> getDirContents_r(QDir directory, const QList<QString> filters);
 
 int main(int argc, char* argv[])
 {
@@ -25,6 +34,8 @@ int main(int argc, char* argv[])
 
     Starstructor::GUI::MainWindow window{};
     window.show();
+
+    testLoadingStuff();
 
     bool running{ true };
 
@@ -35,11 +46,11 @@ int main(int argc, char* argv[])
             application.processEvents(QEventLoop::ProcessEventsFlag::AllEvents, MAX_LOCK_TIME_MS);
 
             if (!window.isVisible())
-                throw Starstructor::Except::Exception{ "test throw - closing application" };
+                throw Starstructor::Exception::Exception{ "test throw - closing application" };
         }
-        catch (const Starstructor::Except::Exception& ex)
+        catch (const Starstructor::Exception::Exception& ex)
         {
-            std::cout << ex << std::endl;
+            std::cout << ex.message() << std::endl;
             running = false;
         }
         catch (const std::exception& ex)
@@ -50,7 +61,35 @@ int main(int argc, char* argv[])
     }
 }
 
-/*// Recursively iterate through a given directory
+void testLoadingStuff()
+{
+    using Starstructor::Core::WorldFile;
+
+    try
+    {
+        WorldFile world = WorldFile{ getDirContents_r(
+            QDir{ TEST_ASSET_DIR },
+            QList<QString> { "structure" }).first().toStdString() };
+
+        const QJsonDocument* doc{ &(world.m_json.getJsonDocument()) };
+        QJsonObject obj1{ doc->object() };
+        QJsonValue val1{ obj1.value("blockKey") };
+
+        qDebug() << obj1 << "\n\n";
+        qDebug() << val1;
+
+    }
+    catch (const Starstructor::Exception::FileNotFoundException& ex)
+    {
+        std::cout << ex.message() << std::endl;
+    }
+    catch (const Starstructor::Exception::JsonInvalidFormat& ex)
+    {
+        std::cout << ex.message() << std::endl;
+    }
+}
+
+// Recursively iterate through a given directory
 // Optionally applies the given file extension filters
 QList<QString> getDirContents_r(QDir directory, const QList<QString> filters = {})
 {
@@ -76,4 +115,4 @@ QList<QString> getDirContents_r(QDir directory, const QList<QString> filters = {
     }
 
     return matchingFiles;
-}*/
+}

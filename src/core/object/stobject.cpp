@@ -9,6 +9,8 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
+#include "core/object/stobject.hpp"
+
 namespace Starstructor { namespace Core {
 
 }

@@ -15,7 +15,7 @@ Contact: starstructor@gmail.com
 #include <string>
 #include <ostream>
 
-namespace Starstructor { namespace Except {
+namespace Starstructor { namespace Exception {
 
 class Exception
 {
@@ -36,32 +36,27 @@ private:
     std::string m_message;
 };
 
-class FileException : public Exception
+class FileNotFoundException : public Exception
 {
 public:
-    FileException(const std::string message) throw()
-        : Exception("File exception: " + message)
+    FileNotFoundException(const std::string message) throw()
+        : Exception("File not found exception: " + message)
     {}
 
-    virtual ~FileException()
+    virtual ~FileNotFoundException()
     {}
 };
 
-class JsonException : public Exception
+class JsonInvalidFormat : public Exception
 {
 public:
-    JsonException(const std::string message) throw()
-        : JsonException("Json exception: " + message)
+    JsonInvalidFormat(const std::string message) throw()
+        : Exception("Json invalid format exception: " + message)
     {}
 
-    virtual ~JsonException()
+    virtual ~JsonInvalidFormat()
     {}
 };
-
-std::ostream& operator<<(std::ostream& os, const Exception& ex) throw()
-{
-    os << ex.message(); return os;
-}
 
 }
 

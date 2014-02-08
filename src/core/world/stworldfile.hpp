@@ -9,10 +9,22 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "core/world/stdungeonfile.hpp"
+#ifndef STWORLDFILE_HPP
+#define STWORLDFILE_HPP
+
+#include "core/stjsonfile.hpp"
 
 namespace Starstructor { namespace Core {
 
+class WorldFile 
+{
+public:
+    WorldFile(const std::string& path);
+    JsonFile m_json;
+};
+
 }
 
 }
+
+#endif // STWORLDFILE_HPP

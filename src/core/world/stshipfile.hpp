@@ -12,7 +12,16 @@ Contact: starstructor@gmail.com
 #ifndef STSHIPFILE_HPP
 #define STSHIPFILE_HPP
 
+#include "core/world/stworldfile.hpp"
+
 namespace Starstructor { namespace Core {
+
+class ShipFile final : public WorldFile
+{
+public:
+
+private:
+};
 
 }
 

@@ -12,7 +12,16 @@ Contact: starstructor@gmail.com
 #ifndef STDUNGEONFILE_HPP
 #define STDUNGEONFILE_HPP
 
+#include "core/world/stworldfile.hpp"
+
 namespace Starstructor { namespace Core {
+
+class DungeonFile final : public WorldFile
+{
+public:
+
+private:
+};
 
 }
 

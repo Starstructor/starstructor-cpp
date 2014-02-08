@@ -13,14 +13,7 @@ win32
 TARGET   = starstructor
 TEMPLATE = app
 
-INCLUDEPATH += src/ 
-INCLUDEPATH += src/gui/
-INCLUDEPATH += src/exception/
-#INCLUDEPATH += src/test/
-#INCLUDEPATH += src/utility/
-INCLUDEPATH += src/core/
-INCLUDEPATH += src/core/object/
-INCLUDEPATH += src/core/world/
+INCLUDEPATH += src/
 
 SOURCES += src/*.cpp
 SOURCES += src/gui/*.cpp

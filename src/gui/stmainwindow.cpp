@@ -9,7 +9,7 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "stmainwindow.hpp"
+#include "gui/stmainwindow.hpp"
 
 namespace Starstructor { namespace GUI {
 
