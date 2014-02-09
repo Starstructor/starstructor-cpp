@@ -67,12 +67,9 @@ void testLoadingStuff()
 
     auto matches = getDirContents_r(QDir{ TEST_ASSET_DIR }, QList<QString> { "dungeon" });
 
-    if (!matches.isEmpty())
+    for (const auto& path : matches)
     {
-        for (const auto& path : matches)
-        {
-            filesToLoad.push_back(path.toStdString());
-        }
+        filesToLoad.push_back(path.toStdString());
     }
 
     for (const auto& path : filesToLoad)
@@ -81,7 +78,7 @@ void testLoadingStuff()
         {
             Starstructor::Core::WorldFile world{ path };
 
-            const QJsonDocument const * doc{ &(world.m_json.getJsonDocument()) };
+            const QJsonDocument * const doc{ &(world.m_json.getJsonDocument()) };
             QJsonObject obj1{ doc->object() };
             QJsonValue val1{ obj1.value("blockKey") };
             qDebug() << val1;

@@ -5,13 +5,10 @@ QT += core gui
 QT += widgets
 QT += opengl
 
-win32
-{
-    RC_FILE = res/icon.rc
-}
-
 TARGET   = starstructor
 TEMPLATE = app
+
+RESOURCES += res/icon.qrc
 
 INCLUDEPATH += src/
 
