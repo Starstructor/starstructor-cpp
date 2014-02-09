@@ -12,6 +12,10 @@ Contact: starstructor@gmail.com
 #ifndef STEXCEPTION_HPP
 #define STEXCEPTION_HPP
 
+#ifdef _MSC_VER
+#define noexcept throw()
+#endif
+
 #include <string>
 #include <ostream>
 
