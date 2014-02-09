@@ -20,19 +20,19 @@ namespace Starstructor { namespace Exception {
 class Exception
 {
 public:
-    Exception(const std::string& message, const std::string& exType = "General exception") throw()
-        : m_exType{ exType }, m_message{ message }
+    Exception(const std::string& message, const std::string& exType = "General exception") noexcept
+        : m_message{ message }, m_exType{ exType }
     {}
 
     virtual ~Exception()
     {}
 
-    std::string Exception::what() const throw()
+    std::string what() const noexcept
     {
         return m_exType + ": " + m_message;
     }
 
-    std::string Exception::message() const throw()
+    std::string message() const noexcept
     {
         return m_message;
     }
@@ -45,7 +45,7 @@ private:
 class FileNotFoundException : public Exception
 {
 public:
-    FileNotFoundException(const std::string& message) throw()
+    FileNotFoundException(const std::string& message) noexcept
         : Exception{ message, "File not found exception" }
     {}
 
@@ -56,7 +56,7 @@ public:
 class JsonInvalidFormat : public Exception
 {
 public:
-    JsonInvalidFormat(const std::string& message) throw()
+    JsonInvalidFormat(const std::string& message) noexcept
         : Exception{ message, "JSON invalid format exception" }
     {}
 
