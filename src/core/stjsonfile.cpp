@@ -19,22 +19,11 @@ namespace Starstructor { namespace Core {
 JsonFile::JsonFile(const std::string& path)
     :m_path {path}
 {
-    QFile file{ path.c_str() };
-
-    if (!file.open(QIODevice::ReadOnly))
-        throw Exception::FileNotFoundException("Unable to open file " + path);
-
-    const QByteArray rawData = file.readAll();
-    file.close();
-
-    m_jsonDocument = QJsonDocument::fromJson(rawData);
-
-    if (m_jsonDocument.isNull())
-        throw Exception::JsonInvalidFormat("Attempted to read Json from " + path + ", but was null");
+    loadFromFile(path);
 }
 
 JsonFile::~JsonFile()
-{ }
+{}
 
 const std::string& JsonFile::getFilePath() const
 {
@@ -46,9 +35,32 @@ const QJsonDocument& JsonFile::getJsonDocument() const
     return m_jsonDocument;
 }
 
-void JsonFile::setJsonDocument(const QJsonDocument& document)
+void JsonFile::loadFromFile(const std::string& path)
 {
-    m_jsonDocument = document;
+    QFile file{ path.c_str() };
+
+    if (!file.open(QIODevice::ReadOnly))
+        throw Exception::FileNotFoundException("Unable to open file " + path);
+
+    const QByteArray rawData = file.readAll();
+    file.close();
+
+    try
+    {
+        loadFromRawData(rawData);
+    }
+    catch (const Exception::JsonInvalidFormat& ex)
+    {
+        throw Exception::JsonInvalidFormat(ex.message() + " from file " + path);
+    }
+}
+
+void JsonFile::loadFromRawData(const QByteArray& rawData)
+{
+    m_jsonDocument = QJsonDocument::fromJson(rawData);
+
+    if (m_jsonDocument.isNull())
+        throw Exception::JsonInvalidFormat("JSON format invalid");
 }
 
 }

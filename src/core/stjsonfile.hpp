@@ -12,8 +12,8 @@ Contact: starstructor@gmail.com
 #ifndef STJSONFILE_HPP
 #define STJSONFILE_HPP
 
-#include <string>
 #include <QJsonDocument>
+#include <string>
 
 namespace Starstructor { namespace Core {
 
@@ -25,7 +25,9 @@ public:
 
     const std::string& getFilePath() const;
     const QJsonDocument& getJsonDocument() const;
-    void setJsonDocument(const QJsonDocument& document);
+
+    void loadFromFile(const std::string& path);
+    void loadFromRawData(const QByteArray& rawData);
 
 private:
     QJsonDocument m_jsonDocument;

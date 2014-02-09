@@ -15,8 +15,7 @@ namespace Starstructor { namespace Core {
 
 WorldFile::WorldFile(const std::string& path)
     : m_json{ path }
-{
-}
+{}
 
 }
 
