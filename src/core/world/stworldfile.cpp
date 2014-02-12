@@ -17,6 +17,14 @@ WorldFile::WorldFile(const std::string& path)
     : m_json{ path }
 {}
 
+WorldFile::~WorldFile()
+{}
+
+JsonFile* WorldFile::getJsonFile()
+{
+    return &m_json;
+}
+
 }
 
 }

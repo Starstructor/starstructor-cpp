@@ -13,6 +13,9 @@ Contact: starstructor@gmail.com
 #define STJSONFILE_HPP
 
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
+
 #include <string>
 
 namespace Starstructor { namespace Core {

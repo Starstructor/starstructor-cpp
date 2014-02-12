@@ -20,6 +20,11 @@ class WorldFile
 {
 public:
     WorldFile(const std::string& path);
+    virtual ~WorldFile();
+    
+    JsonFile* getJsonFile();
+
+protected:
     JsonFile m_json;
 };
 

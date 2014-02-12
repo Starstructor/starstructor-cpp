@@ -9,14 +9,14 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
+#include "stexception.hpp"
 #include "gui/stmainwindow.hpp"
-#include "exception/stexception.hpp"
 #include "core/world/stworldfile.hpp"
+#include "core/stjsonfile.hpp"
 
 #include <QApplication>
 #include <QDir>
 #include <QFileInfo>
-#include <QJsonObject>
 #include <QDebug>
 
 #include <exception>
@@ -37,26 +37,21 @@ int main(int argc, char* argv[])
 
     testLoadingStuff();
 
-    bool running{ true };
-
-    while (running)
+	while (window.isVisible())
     {
         try
         {
             application.processEvents(QEventLoop::ProcessEventsFlag::AllEvents, MAX_LOCK_TIME_MS);
-
-            if (!window.isVisible())
-                throw Starstructor::Exception::Exception{ "test throw - closing application" };
         }
-        catch (const Starstructor::Exception::Exception& ex)
+		catch (const Starstructor::Exception& ex)
         {
             std::cout << ex.what() << std::endl;
-            running = false;
+            break;
         }
         catch (const std::exception& ex)
         {
             std::cout << "Unrecoverable STL exception: " << ex.what() << std::endl;
-            running = false;
+            break;
         }
     }
 }
@@ -76,19 +71,19 @@ void testLoadingStuff()
     {
         try
         {
-            Starstructor::Core::WorldFile world{ path };
+            Starstructor::Core::WorldFile world{ path };   
+            Starstructor::Core::JsonFile* const json{ world.getJsonFile() };
+            const QJsonDocument doc = json->getJsonDocument();
 
-            const QJsonDocument * const doc{ &(world.m_json.getJsonDocument()) };
-            QJsonObject obj1{ doc->object() };
+            QJsonObject obj1{ doc.object() };
             QJsonValue val1{ obj1.value("blockKey") };
             qDebug() << val1;
-
         }
-        catch (const Starstructor::Exception::FileNotFoundException& ex)
+        catch (const Starstructor::FileNotFoundException& ex)
         {
             std::cout << ex.what() << std::endl;
         }
-        catch (const Starstructor::Exception::JsonInvalidFormat& ex)
+        catch (const Starstructor::JsonInvalidFormat& ex)
         {
             std::cout << ex.what() << std::endl;
         }
