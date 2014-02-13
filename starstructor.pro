@@ -16,6 +16,7 @@ INCLUDEPATH += src/
 
 HEADERS += src/stexception.hpp
 HEADERS += src/gui/stmainwindow.hpp
+HEADERS += src/core/stparseable.hpp
 HEADERS += src/core/stjsonfile.hpp
 HEADERS += src/core/stassetmanager.hpp
 HEADERS += src/core/stlogger.hpp
@@ -32,6 +33,7 @@ HEADERS += src/core/utility/sttimer.hpp
 
 SOURCES += src/main.cpp
 SOURCES += src/gui/stmainwindow.cpp
+SOURCES += src/core/stparseable.cpp
 SOURCES += src/core/stjsonfile.cpp
 SOURCES += src/core/stassetmanager.cpp
 SOURCES += src/core/stlogger.cpp

@@ -12,7 +12,7 @@ Contact: starstructor@gmail.com
 #ifndef STDUNGEONFILE_HPP
 #define STDUNGEONFILE_HPP
 
-#include "core/world/stLevel.hpp"
+#include "core/world/stlevel.hpp"
 
 namespace Starstructor { namespace Core {
 

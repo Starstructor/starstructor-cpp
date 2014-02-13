@@ -12,18 +12,19 @@ Contact: starstructor@gmail.com
 #ifndef STASSET_HPP
 #define STASSET_HPP
 
+#include "core/stparseable.hpp"
+
 #include <QString>
 
 namespace Starstructor { namespace Core {
 
-class Asset
+class Asset : public Parseable
 {
 public:
-    Asset() = delete;
-    Asset(const QString& path);
+    virtual ~Asset() = 0;
 
-private:
-    QString m_fileName = "undefined";
+protected:
+    Asset(const QString& path);
 };
 
 }

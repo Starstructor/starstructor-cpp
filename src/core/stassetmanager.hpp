@@ -28,14 +28,14 @@ class AssetManager
 public:
     AssetManager() = delete;
     AssetManager(const QString& path, 
-        const QVector<QString> filters = { "object", "npc", "material" },
-        Logger* const log = nullptr);
+        Logger* const log = nullptr,
+        const QVector<QString> filters = { "object", "npc", "material" });
 
 private:
     QVector<QFileInfo> getDirContents_r(const QDir& directory,
         const QVector<QString>& filters);
 
-    QHash<QString, Asset*> m_assetMap;
+    QHash<QString, std::unique_ptr<Asset>> m_assetMap;
     Logger* m_logger;
 };
 

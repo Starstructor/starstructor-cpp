@@ -17,7 +17,7 @@ Contact: starstructor@gmail.com
 namespace Starstructor { namespace Core {
 
 JsonFile::JsonFile(const QString& path)
-    :m_path {path}
+    :m_filePath {path}
 {
     loadFromFile(path);
 }
@@ -27,7 +27,7 @@ JsonFile::~JsonFile()
 
 const QString& JsonFile::getFilePath() const
 {
-    return m_path;
+    return m_filePath;
 }
 
 const QJsonDocument& JsonFile::getJsonDocument() const

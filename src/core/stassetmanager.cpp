@@ -23,8 +23,9 @@ using std::unique_ptr;
 
 namespace Starstructor { namespace Core {
 
-AssetManager::AssetManager(const QString& path, const QVector<QString> filters,
-    Logger* const log)
+AssetManager::AssetManager(const QString& path, Logger* const logger,
+    const QVector<QString> filters)
+: m_logger{ logger }
 {
     for (const auto& file : getDirContents_r(QDir{ path }, filters))
     {

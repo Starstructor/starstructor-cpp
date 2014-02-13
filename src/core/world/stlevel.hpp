@@ -12,21 +12,17 @@ Contact: starstructor@gmail.com
 #ifndef STLEVEL_HPP
 #define STLEVEL_HPP
 
-#include "core/stjsonfile.hpp"
+#include "core/stparseable.hpp"
 
 namespace Starstructor { namespace Core {
 
-class Level 
+class Level : public Parseable
 {
 public:
-    Level() = delete;
-    Level(const QString& path);
-    virtual ~Level();
-    
-    JsonFile* getJsonFile();
+    virtual ~Level() = 0;
 
 protected:
-    JsonFile m_json;
+    Level(const QString& path);
 };
 
 }

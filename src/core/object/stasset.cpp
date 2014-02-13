@@ -14,9 +14,11 @@ Contact: starstructor@gmail.com
 namespace Starstructor { namespace Core {
 
 Asset::Asset(const QString& path)
-{
+: Parseable{ path }
+{}
 
-}
+Asset::~Asset()
+{}
 
 }
 

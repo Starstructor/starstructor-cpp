@@ -33,7 +33,7 @@ public:
 
 private:
     QJsonDocument m_jsonDocument;
-    QString m_path;
+    QString m_filePath;
 };
 
 }

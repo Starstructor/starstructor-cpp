@@ -47,6 +47,9 @@ long long Timer::getTime() const
 
     case TimerPrecision::SECONDS:
         return duration_cast<seconds>(difference).count();
+
+    default:
+        return duration_cast<milliseconds>(difference).count();
     }
 }
 

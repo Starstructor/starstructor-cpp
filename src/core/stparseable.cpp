@@ -9,16 +9,21 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "core/world/stlevel.hpp"
+#include "core/stparseable.hpp"
 
 namespace Starstructor { namespace Core {
 
-Level::Level(const QString& path)
-: Parseable{ path }
-{}
+Parseable::Parseable(const QString& path)
+: m_json{ path }
+{ }
 
-Level::~Level()
-{}
+Parseable::~Parseable()
+{ }
+
+JsonFile* const Parseable::getJsonFile()
+{
+    return &m_json;
+}
 
 }
 
