@@ -27,7 +27,7 @@ public:
 
     virtual ~Parseable() = 0;
 
-    JsonFile* const getJsonFile();
+    JsonFile* getJsonFile();
 
 protected:
     Parseable(const QString& path);

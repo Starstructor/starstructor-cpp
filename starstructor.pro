@@ -10,12 +10,15 @@ TEMPLATE = app
 
 RESOURCES += res/icon.qrc
 
+QMAKE_CXXFLAGS += -std=c++11
+
 ## Source files
 
 INCLUDEPATH += src/
 
 HEADERS += src/stexception.hpp
 HEADERS += src/gui/stmainwindow.hpp
+HEADERS += src/utility/sttimer.hpp
 HEADERS += src/core/stparseable.hpp
 HEADERS += src/core/stjsonfile.hpp
 HEADERS += src/core/stassetmanager.hpp
@@ -29,10 +32,10 @@ HEADERS += src/core/world/stlevel.hpp
 HEADERS += src/core/world/stdungeonfile.hpp
 HEADERS += src/core/world/stworldfile.hpp
 HEADERS += src/core/world/ststructurefile.hpp
-HEADERS += src/core/utility/sttimer.hpp
 
 SOURCES += src/main.cpp
 SOURCES += src/gui/stmainwindow.cpp
+SOURCES += src/utility/sttimer.cpp
 SOURCES += src/core/stparseable.cpp
 SOURCES += src/core/stjsonfile.cpp
 SOURCES += src/core/stassetmanager.cpp
@@ -46,6 +49,5 @@ SOURCES += src/core/world/stlevel.cpp
 SOURCES += src/core/world/stdungeonfile.cpp
 SOURCES += src/core/world/stworldfile.cpp
 SOURCES += src/core/world/ststructurefile.cpp
-SOURCES += src/core/utility/sttimer.cpp
 
 FORMS += src/gui/mainwindow.ui

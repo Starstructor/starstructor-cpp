@@ -20,7 +20,7 @@ Parseable::Parseable(const QString& path)
 Parseable::~Parseable()
 { }
 
-JsonFile* const Parseable::getJsonFile()
+JsonFile* Parseable::getJsonFile()
 {
     return &m_json;
 }
