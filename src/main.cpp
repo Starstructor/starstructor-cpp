@@ -12,6 +12,7 @@ Contact: starstructor@gmail.com
 #include "stexception.hpp"
 #include "gui/stmainwindow.hpp"
 #include "utility/sttimer.hpp"
+#include "utility/stlogger.hpp"
 
 #include <QApplication>
 #include <QDir>
@@ -31,6 +32,8 @@ int main(int argc, char* argv[])
 
     int loopCount{};
     Utility::Timer timer{ Utility::TimerPrecision::MILLISECONDS };
+
+    Utility::Logger log{ R"(C:/test.txt)" };
     
 	while (window.isVisible())
     {
@@ -43,6 +46,7 @@ int main(int argc, char* argv[])
 
             if (time > 500)
             {
+                log.writeLine(QString::number(loopCount) + " iterations in " + QString::number(time) + "ms");
                 qDebug() << loopCount << " iterations in" << time << "ms";
                 loopCount = 0;
                 timer.reset();

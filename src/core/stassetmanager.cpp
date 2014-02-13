@@ -10,8 +10,8 @@ Contact: starstructor@gmail.com
 */
 
 #include "stexception.hpp"
+#include "utility/stlogger.hpp"
 #include "core/stassetmanager.hpp"
-#include "core/stlogger.hpp"
 #include "core/object/stasset.hpp"
 #include "core/object/stobject.hpp"
 #include "core/object/stmaterial.hpp"
