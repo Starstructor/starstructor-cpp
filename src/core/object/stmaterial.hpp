@@ -12,7 +12,18 @@ Contact: starstructor@gmail.com
 #ifndef STMATERIAL_HPP
 #define STMATERIAL_HPP
 
+#include "core/object/stasset.hpp"
+
 namespace Starstructor { namespace Core {
+
+class Material : public Asset
+{
+public:
+    Material() = delete;
+    Material(const QString& path);
+
+private:
+};
 
 }
 

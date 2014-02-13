@@ -13,18 +13,6 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace Core {
 
-WorldFile::WorldFile(const std::string& path)
-    : m_json{ path }
-{}
-
-WorldFile::~WorldFile()
-{}
-
-JsonFile* WorldFile::getJsonFile()
-{
-    return &m_json;
-}
-
 }
 
 }

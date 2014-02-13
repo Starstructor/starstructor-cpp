@@ -15,26 +15,25 @@ Contact: starstructor@gmail.com
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
-
-#include <string>
+#include <QString>
 
 namespace Starstructor { namespace Core {
 
 class JsonFile final
 {
 public:
-    JsonFile(const std::string& path);
+    JsonFile(const QString& path);
     ~JsonFile();
 
-    const std::string& getFilePath() const;
+    const QString& getFilePath() const;
     const QJsonDocument& getJsonDocument() const;
 
-    void loadFromFile(const std::string& path);
+    void loadFromFile(const QString& path);
     void loadFromRawData(const QByteArray& rawData);
 
 private:
     QJsonDocument m_jsonDocument;
-    std::string m_path;
+    QString m_path;
 };
 
 }

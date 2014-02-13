@@ -9,22 +9,22 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#ifndef STSHIPFILE_HPP
-#define STSHIPFILE_HPP
-
-#include "core/world/stworldfile.hpp"
+#include "core/world/stLevel.hpp"
 
 namespace Starstructor { namespace Core {
 
-class ShipFile final : public WorldFile
+Level::Level(const QString& path)
+    : m_json{ path }
+{}
+
+Level::~Level()
+{}
+
+JsonFile* Level::getJsonFile()
 {
-public:
-
-private:
-};
-
+    return &m_json;
 }
 
 }
 
-#endif // STSHIPFILE_HPP
+}

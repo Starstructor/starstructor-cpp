@@ -12,7 +12,19 @@ Contact: starstructor@gmail.com
 #ifndef STASSET_HPP
 #define STASSET_HPP
 
+#include <QString>
+
 namespace Starstructor { namespace Core {
+
+class Asset
+{
+public:
+    Asset() = delete;
+    Asset(const QString& path);
+
+private:
+    QString m_fileName = "undefined";
+};
 
 }
 

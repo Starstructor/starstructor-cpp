@@ -16,7 +16,7 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace Core {
 
-JsonFile::JsonFile(const std::string& path)
+JsonFile::JsonFile(const QString& path)
     :m_path {path}
 {
     loadFromFile(path);
@@ -25,7 +25,7 @@ JsonFile::JsonFile(const std::string& path)
 JsonFile::~JsonFile()
 {}
 
-const std::string& JsonFile::getFilePath() const
+const QString& JsonFile::getFilePath() const
 {
     return m_path;
 }
@@ -35,9 +35,9 @@ const QJsonDocument& JsonFile::getJsonDocument() const
     return m_jsonDocument;
 }
 
-void JsonFile::loadFromFile(const std::string& path)
+void JsonFile::loadFromFile(const QString& path)
 {
-    QFile file{ path.c_str() };
+    QFile file{ path };
 
     if (!file.open(QIODevice::ReadOnly))
         throw FileNotFoundException("Unable to open file " + path);

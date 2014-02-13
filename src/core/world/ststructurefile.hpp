@@ -9,14 +9,14 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#ifndef STDUNGEONFILE_HPP
-#define STDUNGEONFILE_HPP
+#ifndef STSTRUCTUREFILE_HPP
+#define STSTRUCTUREFILE_HPP
 
 #include "core/world/stLevel.hpp"
 
 namespace Starstructor { namespace Core {
 
-class DungeonFile final : public Level
+class StructureFile final : public Level
 {
 public:
 
@@ -27,4 +27,4 @@ private:
 
 }
 
-#endif // STDUNGEONFILE_HPP
+#endif // STSTRUCTUREFILE_HPP

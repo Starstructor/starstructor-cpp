@@ -13,6 +13,11 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace Core {
 
+NPC::NPC(const QString& path) : Asset(path)
+{
+
+}
+
 }
 
 }

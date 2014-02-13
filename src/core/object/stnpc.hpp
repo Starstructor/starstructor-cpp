@@ -12,7 +12,18 @@ Contact: starstructor@gmail.com
 #ifndef STNPC_HPP
 #define STNPC_HPP
 
+#include "core/object/stasset.hpp"
+
 namespace Starstructor { namespace Core {
+
+class NPC : public Asset
+{
+public:
+    NPC() = delete;
+    NPC(const QString& path);
+
+private:
+};
 
 }
 

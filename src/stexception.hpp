@@ -12,41 +12,40 @@ Contact: starstructor@gmail.com
 #ifndef STEXCEPTION_HPP
 #define STEXCEPTION_HPP
 
-#include <exception>
-#include <string>
-#include <ostream>
+#include <QString>
 
 namespace Starstructor {
 
 class Exception
 {
 public:
-    Exception(const std::string& message, const std::string& exType = "General exception") noexcept
+    Exception(const QString& message, 
+        const QString& exType = "General exception") noexcept
         : m_message{ message }, m_exType{ exType }
     {}
 
     virtual ~Exception()
     {}
 
-    std::string what() const noexcept
+    QString what() const noexcept
     {
         return m_exType + ": " + m_message;
     }
 
-    std::string message() const noexcept
+    QString message() const noexcept
     {
         return m_message;
     }
 
 private:
-    std::string m_message;
-    std::string m_exType;
+    QString m_message;
+    QString m_exType;
 };
 
 class FileNotFoundException : public Exception
 {
 public:
-    FileNotFoundException(const std::string& message) noexcept
+    FileNotFoundException(const QString& message) noexcept
         : Exception{ message, "File not found exception" }
     {}
 
@@ -57,7 +56,7 @@ public:
 class JsonInvalidFormat : public Exception
 {
 public:
-    JsonInvalidFormat(const std::string& message) noexcept
+    JsonInvalidFormat(const QString& message) noexcept
         : Exception{ message, "JSON invalid format exception" }
     {}
 
