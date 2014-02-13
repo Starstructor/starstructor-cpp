@@ -51,7 +51,7 @@ public:
     Logger& operator=(const Logger& other) = delete;
 
 private:
-    QString getDateTime();
+    QString getTime();
 
     QFile m_logFile;
     QTextStream m_stream;

@@ -12,7 +12,7 @@ Contact: starstructor@gmail.com
 #include "utility/stlogger.hpp"
 
 #include <QTextStream>
-#include <QDateTime>
+#include <QTime>
 
 using std::unique_lock;
 using std::mutex;
@@ -20,7 +20,7 @@ using std::mutex;
 namespace Starstructor { namespace Utility {
 
 Logger::Logger(const QString& path)
-: m_logFile{ path }, m_stream{}, m_errState{ false }
+: m_logFile{ path }, m_stream{}
 {
     if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Text))
         throw FileNotFoundException{ "Unable to open log file at " + path };
@@ -92,42 +92,43 @@ Logger& Logger::operator<<(QTextStreamFunction input)
 void Logger::writeLine(const char* input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input << endl;
+    m_stream << getTime() << input << endl;
 }
 
 void Logger::writeLine(std::string input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input.c_str() << endl;
+    m_stream << getTime() << input.c_str() << endl;
 }
 
 void Logger::writeLine(QString input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input << endl;
+    m_stream << getTime() << input << endl;
 }
 
 void Logger::writeLine(QVariant input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input.toString() << endl;
+    m_stream << getTime() << input.toString() << endl;
 }
 
 void Logger::writeLine(Exception input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input.what() << endl;
+    m_stream << getTime() << input.what() << endl;
 }
 
 void Logger::writeLine(std::exception input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getDateTime() << input.what() << endl;
+    m_stream << getTime() << input.what() << endl;
 }
 
-QString Logger::getDateTime()
+QString Logger::getTime()
 {
-    return "[" + QDateTime::currentDateTime().toString(Qt::ISODate) + "] ";
+    const QString format{ "hh:mm:ss zzz" };
+    return "[" + QTime::currentTime().toString(format) + "] ";
 }
 
 }
