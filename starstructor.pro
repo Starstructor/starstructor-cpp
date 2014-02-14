@@ -1,6 +1,12 @@
 CONFIG += qt
 CONFIG += console
 
+console {
+	DEFINES += ST_USE_CONSOLE
+} else {
+	DEFINES += ST_NO_USE_CONSOLE
+}
+
 QT += core gui
 QT += widgets
 QT += opengl

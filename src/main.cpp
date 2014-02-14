@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
     Utility::Logger log{ R"(C:/test.txt)" };
 
     Utility::DirectoryServices dirServices{
-        QDir{ R"(A:/Development/starbound/assets/)" }, &log };
+        R"(A:/Development/starbound/assets/)", &log };
 
     auto all = dirServices.getFiles();
 
@@ -58,11 +58,10 @@ int main(int argc, char* argv[])
 
             const auto time = timer.getTime();
 
-            if (time > 500)
+            if (time >= 500)
             {
                 log.writeLine(QString::number(loopCount) + " iterations in " 
                     + QString::number(time) + "ms");
-                qDebug() << loopCount << " iterations in" << time << "ms";
 
                 loopCount = 0;
                 timer.reset();

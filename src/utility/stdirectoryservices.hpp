@@ -37,9 +37,9 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(DirectoryServicesFlags);
 class DirectoryServices final
 {
 public:
-
     DirectoryServices() = delete;
     DirectoryServices(const QDir& path, Utility::Logger* logger = nullptr);
+    DirectoryServices(const QString& path, Utility::Logger* logger = nullptr);
 
     DirectoryServices(DirectoryServices&& other) = default;
     DirectoryServices& operator=(DirectoryServices&& other) = default;

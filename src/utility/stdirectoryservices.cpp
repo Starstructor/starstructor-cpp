@@ -45,6 +45,10 @@ DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger* logger)
     }
 }
 
+DirectoryServices::DirectoryServices(const QString& path, Utility::Logger* logger)
+    : DirectoryServices( QDir{ path }, logger )
+{}
+
 QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags) const
 {
     // If the caller wants everything, just copy the list, rather than

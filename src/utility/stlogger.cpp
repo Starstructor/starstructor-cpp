@@ -13,6 +13,7 @@ Contact: starstructor@gmail.com
 
 #include <QTextStream>
 #include <QTime>
+#include <QDebug>
 
 using std::unique_lock;
 using std::mutex;
@@ -38,6 +39,10 @@ Logger& Logger::operator<<(const char* input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input;
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input;
+#endif
     return *this;
 }
 
@@ -46,6 +51,11 @@ Logger& Logger::operator<<(std::string input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input.c_str();
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input.c_str();
+#endif
+
     return *this;
 }
 
@@ -54,6 +64,11 @@ Logger& Logger::operator<<(QString input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input; 
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input;
+#endif
+
     return *this;
 }
 
@@ -62,6 +77,11 @@ Logger& Logger::operator<<(QVariant input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input.toString();
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input;
+#endif
+
     return *this;
 }
 
@@ -70,6 +90,11 @@ Logger& Logger::operator<<(Exception input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input.what();
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input.what();
+#endif
+
     return *this;
 }
 
@@ -78,6 +103,11 @@ Logger& Logger::operator<<(std::exception input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input.what();
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input.what();
+#endif
+
     return *this;
 }
 
@@ -86,43 +116,78 @@ Logger& Logger::operator<<(QTextStreamFunction input)
     unique_lock<mutex> lock{ m_writeMutex };
     m_stream << input;
     m_stream.flush();
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << input;
+#endif
+
     return *this;
 }
 
 void Logger::writeLine(const char* input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input << endl;
+    const QString formattedInput{ getTime() + input };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 void Logger::writeLine(std::string input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input.c_str() << endl;
+    const QString formattedInput{ getTime() + input.c_str() };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 void Logger::writeLine(QString input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input << endl;
+    const QString formattedInput{ getTime() + input };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 void Logger::writeLine(QVariant input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input.toString() << endl;
+    const QString formattedInput{ getTime() + input.toString() };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 void Logger::writeLine(Exception input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input.what() << endl;
+    const QString formattedInput{ getTime() + input.what() };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 void Logger::writeLine(std::exception input)
 {
     unique_lock<mutex> lock{ m_writeMutex };
-    m_stream << getTime() << input.what() << endl;
+    const QString formattedInput{ getTime() + input.what() };
+    m_stream << formattedInput << endl;
+
+#ifdef ST_USE_CONSOLE
+    qDebug() << formattedInput;
+#endif
 }
 
 QString Logger::getTime()
