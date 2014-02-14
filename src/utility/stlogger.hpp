@@ -49,6 +49,7 @@ public:
     Logger(const Logger& other) = delete;
     Logger(Logger&& other) = delete;
     Logger& operator=(const Logger& other) = delete;
+    Logger& operator=(Logger&& other) = delete;
 
 private:
     QString getTime();

@@ -14,7 +14,7 @@ Contact: starstructor@gmail.com
 namespace Starstructor { namespace Core {
 
 Level::Level(const QString& path)
-: Parseable{ path }
+    : Parseable{ path }
 {}
 
 Level::~Level()

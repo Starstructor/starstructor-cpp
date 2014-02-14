@@ -13,6 +13,7 @@ Contact: starstructor@gmail.com
 #include "gui/stmainwindow.hpp"
 #include "utility/sttimer.hpp"
 #include "utility/stlogger.hpp"
+#include "utility/stdirectoryservices.hpp"
 
 #include <QApplication>
 #include <QDir>
@@ -30,11 +31,24 @@ int main(int argc, char* argv[])
     GUI::MainWindow window{};
     window.show();
 
+    Utility::Logger log{ R"(C:/test.txt)" };
+
+    Utility::DirectoryServices dirServices{
+        QDir{ R"(A:/Development/starbound/assets/)" }, &log };
+
+    auto all = dirServices.getFiles();
+
+    auto objects = dirServices.getFiles(Utility::DirectoryServicesFlag::OBJECT);
+
+    auto worlds = dirServices.getFiles(
+        Utility::DirectoryServicesFlag::DUNGEON |
+        Utility::DirectoryServicesFlag::WORLD |
+        Utility::DirectoryServicesFlag::STRUCTURE |
+        Utility::DirectoryServicesFlag::SHIPWORLD);
+
     int loopCount{};
     Utility::Timer timer{ Utility::TimerPrecision::MILLISECONDS };
 
-    Utility::Logger log{ R"(C:/test.txt)" };
-    
 	while (window.isVisible())
     {
         try
@@ -46,8 +60,10 @@ int main(int argc, char* argv[])
 
             if (time > 500)
             {
-                log.writeLine(QString::number(loopCount) + " iterations in " + QString::number(time) + "ms");
+                log.writeLine(QString::number(loopCount) + " iterations in " 
+                    + QString::number(time) + "ms");
                 qDebug() << loopCount << " iterations in" << time << "ms";
+
                 loopCount = 0;
                 timer.reset();
             }

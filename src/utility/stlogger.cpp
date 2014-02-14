@@ -20,7 +20,7 @@ using std::mutex;
 namespace Starstructor { namespace Utility {
 
 Logger::Logger(const QString& path)
-: m_logFile{ path }, m_stream{}
+    : m_logFile{ path }, m_stream{}
 {
     if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Text))
         throw FileNotFoundException{ "Unable to open log file at " + path };

@@ -12,6 +12,10 @@ Contact: starstructor@gmail.com
 #ifndef STASSETMANAGER_HPP
 #define STASSETMANAGER_HPP
 
+#include "utility/stlogger.hpp"
+#include "utility/stdirectoryservices.hpp"
+#include "core/object/stasset.hpp"
+
 #include <QVector>
 #include <QString>
 #include <QHash>
@@ -21,22 +25,16 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace Core {
 
-class Logger; class Asset;
-
 class AssetManager
 {
 public:
     AssetManager() = delete;
-    AssetManager(const QString& path, 
-        Logger* const log = nullptr,
-        const QVector<QString> filters = { "object", "npc", "material" });
+    AssetManager(Utility::DirectoryServices* services, 
+        Utility::Logger* logger = nullptr);
 
 private:
-    QVector<QFileInfo> getDirContents_r(const QDir& directory,
-        const QVector<QString>& filters);
-
     QHash<QString, std::unique_ptr<Asset>> m_assetMap;
-    Logger* m_logger;
+    Utility::Logger* m_logger;
 };
 
 }
