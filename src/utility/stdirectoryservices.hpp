@@ -18,6 +18,8 @@ Contact: starstructor@gmail.com
 #include <QList>
 #include <QFileInfo>
 
+#include <mutex>
+
 namespace Starstructor { namespace Utility {
 
 enum class DirectoryServicesFlag
@@ -37,18 +39,23 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(DirectoryServicesFlags);
 class DirectoryServices final
 {
 public:
-    DirectoryServices() = delete;
     DirectoryServices(const QDir& path, Utility::Logger* logger = nullptr);
     DirectoryServices(const QString& path, Utility::Logger* logger = nullptr);
 
-    DirectoryServices(DirectoryServices&& other) = default;
-    DirectoryServices& operator=(DirectoryServices&& other) = default;
+    void rescanPath(const QDir& path);
+    void rescanPath(const QString& path);
 
     QList<QFileInfo> getFiles(const DirectoryServicesFlags flags = 
         DirectoryServicesFlag::OBJECT   | DirectoryServicesFlag::MATERIAL |
         DirectoryServicesFlag::NPC      | DirectoryServicesFlag::STRUCTURE |
         DirectoryServicesFlag::DUNGEON  | DirectoryServicesFlag::WORLD |
         DirectoryServicesFlag::SHIPWORLD) const;
+
+    DirectoryServices() = delete;
+    DirectoryServices(const DirectoryServices& other) = delete;
+    DirectoryServices& operator=(const DirectoryServices& other) = delete;
+    DirectoryServices(DirectoryServices&& other) = delete;
+    DirectoryServices& operator=(DirectoryServices&& other) = delete;
 
 private:
     QList<QFileInfo> getFilteredList(const QList<QString>& filters) const;
@@ -57,6 +64,7 @@ private:
 
     QList<QFileInfo> m_files;
     Utility::Logger* m_logger;
+    mutable std::mutex m_readWriteMutex;
 };
 
 }

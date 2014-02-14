@@ -12,17 +12,29 @@ Contact: starstructor@gmail.com
 #include "utility/stdirectoryservices.hpp"
 #include "utility/sttimer.hpp"
 
+using std::lock_guard;
+using std::mutex;
+
 namespace Starstructor { namespace Utility {
 
 DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger* logger)
-    : m_logger{ logger }
+    : m_logger{ logger }, m_readWriteMutex{}
+{
+    rescanPath(path);
+}
+
+DirectoryServices::DirectoryServices(const QString& path, Utility::Logger* logger)
+    : DirectoryServices( QDir{ path }, logger )
+{}
+
+void DirectoryServices::rescanPath(const QDir& path)
 {
     const QList<QString> filters{ "object", "material", "npc",
         "structure", "dungeon", "world", "shipworld" };
 
     if (m_logger)
     {
-        QString msg{ "Scanning for all files in " + path.path() 
+        QString msg{ "Scanning for all files in " + path.path()
             + " with extensions:" };
 
         for (const auto& filter : filters)
@@ -35,19 +47,23 @@ DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger* logger)
 
     Timer timer{ TimerPrecision::MILLISECONDS };
 
-    m_files = getDirContents_r(path, filters);
+    const auto newFiles = getDirContents_r(path, filters);
+
+    lock_guard<mutex> lock{ m_readWriteMutex };
+    m_files = newFiles;
 
     if (m_logger)
     {
-        m_logger->writeLine("Scanning complete in " 
-            + QString::number(timer.getTime()) + "ms. " 
+        m_logger->writeLine("Scanning complete in "
+            + QString::number(timer.getTime()) + "ms. "
             + QString::number(m_files.count()) + " files found.");
     }
 }
 
-DirectoryServices::DirectoryServices(const QString& path, Utility::Logger* logger)
-    : DirectoryServices( QDir{ path }, logger )
-{}
+void DirectoryServices::rescanPath(const QString& path)
+{
+    rescanPath(QDir{ path });
+}
 
 QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags) const
 {
@@ -59,6 +75,7 @@ QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags)
         DirectoryServicesFlag::DUNGEON  & DirectoryServicesFlag::WORLD &
         DirectoryServicesFlag::SHIPWORLD)
     {
+        lock_guard<mutex> lock{ m_readWriteMutex };
         return m_files;
     }
 
@@ -85,12 +102,13 @@ QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags)
     if (flags & DirectoryServicesFlag::SHIPWORLD)
         filters.push_back("shipworld");
 
-    return std::move(getFilteredList(filters));
+    return getFilteredList(filters);
 }
 
 QList<QFileInfo> DirectoryServices::getFilteredList(const QList<QString>& filters) const
 {
     QList<QFileInfo> newList{};
+    lock_guard<mutex> lock{ m_readWriteMutex };
 
     for (const auto& file : m_files)
     { 
@@ -103,7 +121,7 @@ QList<QFileInfo> DirectoryServices::getFilteredList(const QList<QString>& filter
         }
     }
 
-    return std::move(newList);
+    return newList;
 }
 
 QList<QFileInfo> DirectoryServices::getDirContents_r(const QDir& directory,

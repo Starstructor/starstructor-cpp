@@ -15,13 +15,13 @@ Contact: starstructor@gmail.com
 #include <QTime>
 #include <QDebug>
 
-using std::unique_lock;
+using std::lock_guard;
 using std::mutex;
 
 namespace Starstructor { namespace Utility {
 
 Logger::Logger(const QString& path)
-    : m_logFile{ path }, m_stream{}
+    : m_logFile{ path }, m_stream{}, m_writeMutex{}
 {
     if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Text))
         throw FileNotFoundException{ "Unable to open log file at " + path };
@@ -36,7 +36,7 @@ Logger::~Logger()
 
 Logger& Logger::operator<<(const char* input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input;
     m_stream.flush();
 
@@ -46,9 +46,9 @@ Logger& Logger::operator<<(const char* input)
     return *this;
 }
 
-Logger& Logger::operator<<(std::string input)
+Logger& Logger::operator<<(const std::string& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input.c_str();
     m_stream.flush();
 
@@ -59,9 +59,9 @@ Logger& Logger::operator<<(std::string input)
     return *this;
 }
 
-Logger& Logger::operator<<(QString input)
+Logger& Logger::operator<<(const QString& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input; 
     m_stream.flush();
 
@@ -72,9 +72,9 @@ Logger& Logger::operator<<(QString input)
     return *this;
 }
 
-Logger& Logger::operator<<(QVariant input)
+Logger& Logger::operator<<(const QVariant& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input.toString();
     m_stream.flush();
 
@@ -85,9 +85,9 @@ Logger& Logger::operator<<(QVariant input)
     return *this;
 }
 
-Logger& Logger::operator<<(Exception input)
+Logger& Logger::operator<<(const Exception& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input.what();
     m_stream.flush();
 
@@ -98,9 +98,9 @@ Logger& Logger::operator<<(Exception input)
     return *this;
 }
 
-Logger& Logger::operator<<(std::exception input)
+Logger& Logger::operator<<(const std::exception& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input.what();
     m_stream.flush();
 
@@ -111,9 +111,9 @@ Logger& Logger::operator<<(std::exception input)
     return *this;
 }
 
-Logger& Logger::operator<<(QTextStreamFunction input)
+Logger& Logger::operator<<(const QTextStreamFunction& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     m_stream << input;
     m_stream.flush();
 
@@ -126,7 +126,7 @@ Logger& Logger::operator<<(QTextStreamFunction input)
 
 void Logger::writeLine(const char* input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input };
     m_stream << formattedInput << endl;
 
@@ -135,9 +135,9 @@ void Logger::writeLine(const char* input)
 #endif
 }
 
-void Logger::writeLine(std::string input)
+void Logger::writeLine(const std::string& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input.c_str() };
     m_stream << formattedInput << endl;
 
@@ -146,9 +146,9 @@ void Logger::writeLine(std::string input)
 #endif
 }
 
-void Logger::writeLine(QString input)
+void Logger::writeLine(const QString& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input };
     m_stream << formattedInput << endl;
 
@@ -157,9 +157,9 @@ void Logger::writeLine(QString input)
 #endif
 }
 
-void Logger::writeLine(QVariant input)
+void Logger::writeLine(const QVariant& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input.toString() };
     m_stream << formattedInput << endl;
 
@@ -168,9 +168,9 @@ void Logger::writeLine(QVariant input)
 #endif
 }
 
-void Logger::writeLine(Exception input)
+void Logger::writeLine(const Exception& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input.what() };
     m_stream << formattedInput << endl;
 
@@ -179,9 +179,9 @@ void Logger::writeLine(Exception input)
 #endif
 }
 
-void Logger::writeLine(std::exception input)
+void Logger::writeLine(const std::exception& input)
 {
-    unique_lock<mutex> lock{ m_writeMutex };
+    lock_guard<mutex> lock{ m_writeMutex };
     const QString formattedInput{ getTime() + input.what() };
     m_stream << formattedInput << endl;
 

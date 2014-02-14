@@ -21,11 +21,14 @@ Contact: starstructor@gmail.com
 #include <QDebug>
 
 #include <exception>
+#include <thread>
+
+using namespace Starstructor;
+
+void scan(const Utility::DirectoryServices& services);
 
 int main(int argc, char* argv[])
 {
-    using namespace Starstructor;
-
     QApplication application{ argc, argv };
 
     GUI::MainWindow window{};
@@ -33,8 +36,20 @@ int main(int argc, char* argv[])
 
     Utility::Logger log{ R"(C:/test.txt)" };
 
-    Utility::DirectoryServices dirServices{
-        R"(A:/Development/starbound/assets/)", &log };
+    const QString path{ R"(A:/Development/starbound/assets/)" };
+
+    using Utility::DirectoryServices;
+    
+    DirectoryServices dirServices{ path, &log };
+
+    void (DirectoryServices::*func)(const QDir&) 
+        = &DirectoryServices::rescanPath;
+
+    std::thread thread1{ func, std::ref(dirServices), path };
+    std::thread thread2{ func, std::ref(dirServices), path };
+    std::thread thread3{ func, std::ref(dirServices), path };
+    std::thread thread4{ func, std::ref(dirServices), path };
+    std::thread thread5{ func, std::ref(dirServices), path };
 
     auto all = dirServices.getFiles();
 

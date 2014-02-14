@@ -31,19 +31,19 @@ public:
     ~Logger();
 
     Logger& operator<<(const char* input);
-    Logger& operator<<(std::string input);
-    Logger& operator<<(QString input);
-    Logger& operator<<(QVariant input);
-    Logger& operator<<(Exception input);
-    Logger& operator<<(std::exception input);
-    Logger& operator<<(QTextStreamFunction f);
+    Logger& operator<<(const std::string& input);
+    Logger& operator<<(const QString& input);
+    Logger& operator<<(const QVariant& input);
+    Logger& operator<<(const Exception& input);
+    Logger& operator<<(const std::exception& input);
+    Logger& operator<<(const QTextStreamFunction& f);
 
     void writeLine(const char* input);
-    void writeLine(std::string input);
-    void writeLine(QString input);
-    void writeLine(QVariant input);
-    void writeLine(Exception input);
-    void writeLine(std::exception input);
+    void writeLine(const std::string& input);
+    void writeLine(const QString& input);
+    void writeLine(const QVariant& input);
+    void writeLine(const Exception& input);
+    void writeLine(const std::exception& input);
 
     Logger() = delete;
     Logger(const Logger& other) = delete;
