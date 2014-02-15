@@ -38,6 +38,13 @@ public:
     Logger& operator<<(const std::exception& input);
     Logger& operator<<(const QTextStreamFunction& f);
 
+    void write(const char* input);
+    void write(const std::string& input);
+    void write(const QString& input);
+    void write(const QVariant& input);
+    void write(const Exception& input);
+    void write(const std::exception& input);
+
     void writeLine(const char* input);
     void writeLine(const std::string& input);
     void writeLine(const QString& input);
@@ -54,9 +61,9 @@ public:
 private:
     QString getTime();
 
-    QFile m_logFile;
     QTextStream m_stream;
-    std::mutex m_writeMutex;
+    QFile m_logFile;
+    std::recursive_mutex m_writeMutex;
 };
 
 }

@@ -13,6 +13,7 @@ Contact: starstructor@gmail.com
 #include "core/stjsonfile.hpp"
 
 #include <QFile>
+#include <QFileInfo>
 
 namespace Starstructor { namespace Core {
 
@@ -40,9 +41,9 @@ void JsonFile::loadFromFile(const QString& path)
     QFile file{ path };
 
     if (!file.open(QIODevice::ReadOnly))
-        throw FileNotFoundException("Unable to open file " + path);
+        throw FileNotFoundException{ "Unable to open file at " + path };
 
-    const QByteArray rawData = file.readAll();
+    const QByteArray rawData{ file.readAll() };
     file.close();
 
     try
@@ -51,7 +52,8 @@ void JsonFile::loadFromFile(const QString& path)
     }
     catch (const JsonInvalidFormat& ex)
     {
-        throw JsonInvalidFormat(ex.message() + " from file " + path);
+        const QString fileName{ QFileInfo{ file }.fileName() };
+        throw JsonInvalidFormat{ ex.message() + " from file " + fileName };
     }
 }
 
@@ -60,7 +62,7 @@ void JsonFile::loadFromRawData(const QByteArray& rawData)
     m_jsonDocument = QJsonDocument::fromJson(rawData);
 
     if (m_jsonDocument.isNull())
-        throw JsonInvalidFormat("JSON format invalid");
+        throw JsonInvalidFormat{ "Generic invalid format" };
 }
 
 }

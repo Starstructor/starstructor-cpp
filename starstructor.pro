@@ -23,6 +23,7 @@ QMAKE_CXXFLAGS += -std=c++11
 INCLUDEPATH += src/
 
 HEADERS += src/stexception.hpp
+HEADERS += src/ststlspecialisation.hpp
 HEADERS += src/gui/stmainwindow.hpp
 HEADERS += src/utility/sttimer.hpp
 HEADERS += src/utility/stlogger.hpp

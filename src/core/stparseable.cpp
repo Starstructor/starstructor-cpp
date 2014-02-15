@@ -15,10 +15,10 @@ namespace Starstructor { namespace Core {
 
 Parseable::Parseable(const QString& path)
 : m_json{ path }
-{ }
+{}
 
 Parseable::~Parseable()
-{ }
+{}
 
 JsonFile* Parseable::getJsonFile()
 {

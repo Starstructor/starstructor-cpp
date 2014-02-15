@@ -14,18 +14,18 @@ Contact: starstructor@gmail.com
 #include "utility/sttimer.hpp"
 #include "utility/stlogger.hpp"
 #include "utility/stdirectoryservices.hpp"
+#include "core/stassetmanager.hpp"
 
 #include <QApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QDebug>
+#include <QDateTime>
 
 #include <exception>
 #include <thread>
 
 using namespace Starstructor;
-
-void scan(const Utility::DirectoryServices& services);
 
 int main(int argc, char* argv[])
 {
@@ -34,35 +34,20 @@ int main(int argc, char* argv[])
     GUI::MainWindow window{};
     window.show();
 
-    Utility::Logger log{ R"(C:/test.txt)" };
+    const QString logPath = application.applicationDirPath() + "/logs/";
+    const QString fileName{ 
+        QDateTime::currentDateTime().toString("MM-dd-yyyy_HH-mm-ss")
+        + "_starstructor.txt" };
 
-    const QString path{ R"(A:/Development/starbound/assets/)" };
+    Utility::Logger log{ logPath + fileName };
 
-    using Utility::DirectoryServices;
-    
-    DirectoryServices dirServices{ path, &log };
+    const QString path{ "A:/Development/starbound/assets/" };
+    Utility::DirectoryServices dirServices{ path, &log };
 
-    void (DirectoryServices::*func)(const QDir&) 
-        = &DirectoryServices::rescanPath;
-
-    std::thread thread1{ func, std::ref(dirServices), path };
-    std::thread thread2{ func, std::ref(dirServices), path };
-    std::thread thread3{ func, std::ref(dirServices), path };
-    std::thread thread4{ func, std::ref(dirServices), path };
-    std::thread thread5{ func, std::ref(dirServices), path };
-
-    auto all = dirServices.getFiles();
-
-    auto objects = dirServices.getFiles(Utility::DirectoryServicesFlag::OBJECT);
-
-    auto worlds = dirServices.getFiles(
-        Utility::DirectoryServicesFlag::DUNGEON |
-        Utility::DirectoryServicesFlag::WORLD |
-        Utility::DirectoryServicesFlag::STRUCTURE |
-        Utility::DirectoryServicesFlag::SHIPWORLD);
+    Core::AssetManager assetManager{ &dirServices, &log };
 
     int loopCount{};
-    Utility::Timer timer{ Utility::TimerPrecision::MILLISECONDS };
+    Utility::Timer timer{};
 
 	while (window.isVisible())
     {

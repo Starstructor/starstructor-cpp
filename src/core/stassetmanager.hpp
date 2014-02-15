@@ -12,15 +12,15 @@ Contact: starstructor@gmail.com
 #ifndef STASSETMANAGER_HPP
 #define STASSETMANAGER_HPP
 
+#include "ststlspecialisation.hpp"
 #include "utility/stlogger.hpp"
 #include "utility/stdirectoryservices.hpp"
 #include "core/object/stasset.hpp"
 
-#include <QVector>
-#include <QString>
 #include <QHash>
-#include <QDir>
+#include <QString>
 
+#include <unordered_map>
 #include <memory>
 
 namespace Starstructor { namespace Core {
@@ -33,7 +33,9 @@ public:
         Utility::Logger* logger = nullptr);
 
 private:
-    QHash<QString, std::unique_ptr<Asset>> m_assetMap;
+    // QHash doesn't like unique_ptr (probably lack of move semantics),
+    // so use an unordered_map here instead
+    std::unordered_map<QString, std::unique_ptr<Asset>> m_assetMap;
     Utility::Logger* m_logger;
 };
 

@@ -45,7 +45,7 @@ void DirectoryServices::rescanPath(const QDir& path)
         m_logger->writeLine(msg);
     }
 
-    Timer timer{ TimerPrecision::MILLISECONDS };
+    Timer timer{};
 
     const auto newFiles = getDirContents_r(path, filters);
 
@@ -112,7 +112,7 @@ QList<QFileInfo> DirectoryServices::getFilteredList(const QList<QString>& filter
 
     for (const auto& file : m_files)
     { 
-        const QString suffix = file.suffix();
+        const QString suffix{ file.suffix() };
 
         for (const auto& filter : filters)
         {
@@ -128,7 +128,7 @@ QList<QFileInfo> DirectoryServices::getDirContents_r(const QDir& directory,
     const QList<QString>& filters) const
 {
     const QList<QFileInfo> fileList{ directory.entryInfoList(
-        QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot) };
+        QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot, QDir::DirsFirst) };
 
     QList<QFileInfo> matchingFiles{};
 
@@ -137,7 +137,7 @@ QList<QFileInfo> DirectoryServices::getDirContents_r(const QDir& directory,
         if (file.isDir())
         {
             const auto recMatchingFiles = getDirContents_r(
-                QDir{ file.filePath() }, filters);
+                QDir{ file.absoluteFilePath() }, filters);
 
             if (!recMatchingFiles.isEmpty())
                 matchingFiles += recMatchingFiles;
