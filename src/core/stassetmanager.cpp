@@ -9,9 +9,10 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
+#include "core/stassetmanager.hpp"
+
 #include "stexception.hpp"
 #include "utility/sttimer.hpp"
-#include "core/stassetmanager.hpp"
 #include "core/object/stobject.hpp"
 #include "core/object/stmaterial.hpp"
 #include "core/object/stnpc.hpp"

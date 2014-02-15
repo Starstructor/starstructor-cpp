@@ -9,8 +9,8 @@ Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
 */
 
-#include "stexception.hpp"
 #include "core/stjsonfile.hpp"
+#include "stexception.hpp"
 
 #include <QFile>
 #include <QFileInfo>
@@ -79,7 +79,7 @@ QByteArray JsonFile::stripComments(const QByteArray& rawData)
     /* Strip c-style comments */
     formattedJson.replace(QRegularExpression{ R"(/\*(.*)\*/)" }, "");
 
-    return QByteArray{ formattedJson.toUtf8() };
+    return formattedJson.toUtf8();
 }
 
 }
