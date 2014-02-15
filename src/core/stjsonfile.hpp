@@ -30,6 +30,7 @@ public:
 
     void loadFromFile(const QString& path);
     void loadFromRawData(const QByteArray& rawData);
+    static QByteArray stripComments(const QByteArray& rawData);
 
 private:
     QJsonDocument m_jsonDocument;

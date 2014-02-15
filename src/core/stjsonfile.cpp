@@ -14,6 +14,7 @@ Contact: starstructor@gmail.com
 
 #include <QFile>
 #include <QFileInfo>
+#include <QRegularExpression>
 
 namespace Starstructor { namespace Core {
 
@@ -59,10 +60,26 @@ void JsonFile::loadFromFile(const QString& path)
 
 void JsonFile::loadFromRawData(const QByteArray& rawData)
 {
-    m_jsonDocument = QJsonDocument::fromJson(rawData);
+    QJsonParseError error{};
 
-    if (m_jsonDocument.isNull())
-        throw JsonInvalidFormat{ "Generic invalid format" };
+    m_jsonDocument = QJsonDocument::fromJson(JsonFile::stripComments(rawData), 
+        &error);
+
+    if (error.error != QJsonParseError::NoError || m_jsonDocument.isNull())
+        throw JsonInvalidFormat{ error.errorString() };
+}
+
+QByteArray JsonFile::stripComments(const QByteArray& rawData)
+{
+    QString formattedJson{ rawData };
+
+    // Strip c++-style comments
+    formattedJson.replace(QRegularExpression{ R"(//(.*?)\n)" }, "");
+
+    /* Strip c-style comments */
+    formattedJson.replace(QRegularExpression{ R"(/\*(.*)\*/)" }, "");
+
+    return QByteArray{ formattedJson.toUtf8() };
 }
 
 }
