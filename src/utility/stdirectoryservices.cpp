@@ -3,7 +3,7 @@ Starstructor, the Starbound Toolet
 Copyright (C) 2013-2014 Chris Stamford
 
 Source file contributers:
-Chris Stamford      contact: cstamford@gmail.com
+    Chris Stamford      contact: cstamford@gmail.com
 
 Licensed under the terms of the GPL.
 Contact: starstructor@gmail.com
@@ -17,14 +17,14 @@ using std::mutex;
 
 namespace Starstructor { namespace Utility {
 
-DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger* logger)
-    : m_logger{ logger }, m_readWriteMutex{}
+DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger& logger)
+    : m_logger{ &logger }, m_readWriteMutex{}
 {
     rescanPath(path);
 }
 
-DirectoryServices::DirectoryServices(const QString& path, Utility::Logger* logger)
-    : DirectoryServices( QDir{ path }, logger )
+DirectoryServices::DirectoryServices(const QString& path, Utility::Logger& logger)
+    : DirectoryServices(QDir{ path }, logger)
 {}
 
 void DirectoryServices::rescanPath(const QDir& path)
@@ -32,18 +32,15 @@ void DirectoryServices::rescanPath(const QDir& path)
     const QList<QString> filters{ "object", "material", "npc",
         "structure", "dungeon", "world", "shipworld" };
 
-    if (m_logger)
+    QString msg{ "Scanning for all files in " + path.path()
+        + " with extensions:" };
+
+    for (const auto& filter : filters)
     {
-        QString msg{ "Scanning for all files in " + path.path()
-            + " with extensions:" };
-
-        for (const auto& filter : filters)
-        {
-            msg += " ." + filter;
-        }
-
-        m_logger->writeLine(msg);
+        msg += " ." + filter;
     }
+
+    m_logger->writeLine(msg);
 
     Timer timer{};
 
@@ -52,12 +49,9 @@ void DirectoryServices::rescanPath(const QDir& path)
     lock_guard<mutex> lock{ m_readWriteMutex };
     m_files = newFiles;
 
-    if (m_logger)
-    {
-        m_logger->writeLine("Scanning complete in "
-            + QString::number(timer.getTime()) + "ms. "
-            + QString::number(m_files.count()) + " files found.");
-    }
+    m_logger->writeLine("Scanning complete in "
+        + QString::number(timer.getTime()) + "ms. "
+        + QString::number(m_files.count()) + " files found.");
 }
 
 void DirectoryServices::rescanPath(const QString& path)

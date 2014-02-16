@@ -29,8 +29,8 @@ class AssetManager
 {
 public:
     AssetManager() = delete;
-    AssetManager(Utility::DirectoryServices* services, 
-        Utility::Logger* logger = nullptr);
+    AssetManager(const Utility::DirectoryServices& services,  
+        Utility::Logger& logger);
 
 private:
     // QHash doesn't like unique_ptr (probably lack of move semantics),

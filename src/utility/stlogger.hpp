@@ -52,6 +52,8 @@ public:
     void writeLine(const Exception& input);
     void writeLine(const std::exception& input);
 
+    bool fail() const;
+
     Logger() = delete;
     Logger(const Logger& other) = delete;
     Logger(Logger&& other) = delete;
@@ -61,8 +63,9 @@ public:
 private:
     QString getTime();
 
-    QTextStream m_stream;
+    bool m_failed;
     QFile m_logFile;
+    QTextStream m_stream;
     std::recursive_mutex m_writeMutex;
 };
 

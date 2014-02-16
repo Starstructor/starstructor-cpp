@@ -14,7 +14,7 @@ Contact: starstructor@gmail.com
 namespace Starstructor { namespace Core {
 
 Parseable::Parseable(const QString& path)
-: m_json{ path }
+    : m_json{ path }
 {}
 
 Parseable::~Parseable()

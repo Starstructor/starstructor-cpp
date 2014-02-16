@@ -19,7 +19,7 @@ Contact: starstructor@gmail.com
 namespace Starstructor { namespace Core {
 
 JsonFile::JsonFile(const QString& path)
-    :m_filePath {path}
+    : m_filePath{ path }
 {
     loadFromFile(path);
 }
@@ -65,8 +65,11 @@ void JsonFile::loadFromRawData(const QByteArray& rawData)
     m_jsonDocument = QJsonDocument::fromJson(JsonFile::stripComments(rawData), 
         &error);
 
-    if (error.error != QJsonParseError::NoError || m_jsonDocument.isNull())
+    if (error.error != QJsonParseError::NoError)
         throw JsonInvalidFormat{ error.errorString() };
+
+    else if (m_jsonDocument.isNull())
+        throw JsonInvalidFormat{ "Parsed document is null - empty file?" };
 }
 
 QByteArray JsonFile::stripComments(const QByteArray& rawData)

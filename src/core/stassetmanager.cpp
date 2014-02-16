@@ -21,11 +21,11 @@ Contact: starstructor@gmail.com
 
 namespace Starstructor { namespace Core {
 
-AssetManager::AssetManager(Utility::DirectoryServices* services, 
-    Utility::Logger* logger)
-    : m_logger{logger}
+AssetManager::AssetManager(const Utility::DirectoryServices& services, 
+    Utility::Logger& logger)
+    : m_logger{ &logger }
 {
-    auto assetFileList = services->getFiles(
+    auto assetFileList = services.getFiles(
         Utility::DirectoryServicesFlag::OBJECT   | 
         Utility::DirectoryServicesFlag::MATERIAL |
         Utility::DirectoryServicesFlag::NPC);
@@ -33,11 +33,8 @@ AssetManager::AssetManager(Utility::DirectoryServices* services,
     const int assetsFound{ assetFileList.count() };
     int assetsLoaded{ 0 };
 
-    if (m_logger)
-    {
-        m_logger->writeLine(QString::number(assetsFound) 
-            + " assets to be loaded.");
-    }
+    m_logger->writeLine(QString::number(assetsFound) 
+        + " assets to be loaded.");
 
     Utility::Timer loadTimer{};
 
@@ -47,11 +44,8 @@ AssetManager::AssetManager(Utility::DirectoryServices* services,
 
         if (m_assetMap.find(name) != m_assetMap.end())
         {
-            if (m_logger)
-            {
-                m_logger->writeLine("Failed to load asset " + name
-                    + " because it already exists in the asset map.");
-            }
+            m_logger->writeLine("Failed to load asset " + name
+                + " because it already exists in the asset map.");
 
             continue;
         }
@@ -71,25 +65,17 @@ AssetManager::AssetManager(Utility::DirectoryServices* services,
         }
         catch (const Exception& ex)
         {
-            if (m_logger)
-                m_logger->writeLine(ex);
-
+            m_logger->writeLine(ex);
             continue;
         }
 
         ++assetsLoaded;
-
-        if (m_logger)
-            m_logger->writeLine("Successfully loaded asset " + name);
+        m_logger->writeLine("Successfully loaded asset " + name);
     }
 
-    if (m_logger)
-    {
-        m_logger->writeLine(
-            QString::number(assetsLoaded) + " assets loaded in "
-            + QString::number(loadTimer.getTime()) + " ms, "
-            + QString::number(assetsFound - assetsLoaded) + " assets invalid.");
-    }
+    m_logger->writeLine(QString::number(assetsLoaded) + " assets loaded in "
+        + QString::number(loadTimer.getTime()) + " ms, "
+        + QString::number(assetsFound - assetsLoaded) + " assets invalid.");
 }
 
 }

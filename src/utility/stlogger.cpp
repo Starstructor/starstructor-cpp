@@ -21,7 +21,7 @@ using lockGuard = std::lock_guard<std::recursive_mutex>;
 namespace Starstructor { namespace Utility {
 
 Logger::Logger(const QString& path)
-    : m_stream{}, m_logFile{path}, m_writeMutex{}
+    : m_failed{ false }, m_logFile{ path }, m_stream{}, m_writeMutex{}
 {
     // Get the directory from the full path
     const QDir dir{ QFileInfo{ m_logFile }.dir() };
@@ -30,7 +30,15 @@ Logger::Logger(const QString& path)
         dir.mkpath(".");
 
     if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Text))
-        throw FileNotFoundException{ "Unable to open log file at " + path };
+    {
+        m_failed = true;
+
+#ifdef ST_USE_CONSOLE
+        qDebug() << "Failed to open log file at " + path;
+#endif
+
+        return;
+    }
 
     m_stream.setDevice(&m_logFile);
     writeLine("Opened log file at " + path);
@@ -38,6 +46,9 @@ Logger::Logger(const QString& path)
 
 Logger::~Logger()
 {
+    if (m_failed)
+        return;
+
     writeLine("Closed log file at " + m_logFile.fileName());
     m_logFile.close();
 }
@@ -45,8 +56,12 @@ Logger::~Logger()
 Logger& Logger::operator<<(const char* input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input;
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input;
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input;
@@ -58,8 +73,12 @@ Logger& Logger::operator<<(const char* input)
 Logger& Logger::operator<<(const std::string& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input.c_str();
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input.c_str();
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input.c_str();
@@ -71,8 +90,12 @@ Logger& Logger::operator<<(const std::string& input)
 Logger& Logger::operator<<(const QString& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input; 
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input;
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input;
@@ -84,8 +107,12 @@ Logger& Logger::operator<<(const QString& input)
 Logger& Logger::operator<<(const QVariant& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input.toString();
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input.toString();
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input;
@@ -97,8 +124,12 @@ Logger& Logger::operator<<(const QVariant& input)
 Logger& Logger::operator<<(const Exception& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input.what();
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input.what();
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input.what();
@@ -110,8 +141,12 @@ Logger& Logger::operator<<(const Exception& input)
 Logger& Logger::operator<<(const std::exception& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input.what();
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input.what();
+        m_stream.flush();
+    }
 
 #ifdef ST_USE_CONSOLE
     qDebug() << input.what();
@@ -123,8 +158,13 @@ Logger& Logger::operator<<(const std::exception& input)
 Logger& Logger::operator<<(const QTextStreamFunction& input)
 {
     lockGuard lock{ m_writeMutex };
-    m_stream << input;
-    m_stream.flush();
+
+    if (!m_failed)
+    {
+        m_stream << input;
+        m_stream.flush();
+    }
+
     return *this;
 }
 
@@ -210,6 +250,11 @@ void Logger::writeLine(const std::exception& input)
     lockGuard lock{ m_writeMutex };
     write(input);
     *this << endl;
+}
+
+bool Logger::fail() const
+{
+    return m_failed;
 }
 
 QString Logger::getTime()

@@ -42,9 +42,9 @@ int main(int argc, char* argv[])
     Utility::Logger log{ logPath + fileName };
 
     const QString path{ "A:/Development/starbound/assets/" };
-    Utility::DirectoryServices dirServices{ path, &log };
+    Utility::DirectoryServices dirServices{ path, log };
 
-    Core::AssetManager assetManager{ &dirServices, &log };
+    Core::AssetManager assetManager{ dirServices, log };
 
     int loopCount{};
     Utility::Timer timer{};

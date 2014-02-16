@@ -39,9 +39,8 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(DirectoryServicesFlags);
 class DirectoryServices final
 {
 public:
-    DirectoryServices(const QDir& path, Utility::Logger* logger = nullptr);
-    DirectoryServices(const QString& path, Utility::Logger* logger = nullptr);
-
+    DirectoryServices(const QDir& path, Utility::Logger& logger);
+    DirectoryServices(const QString& path, Utility::Logger& logger);
     void rescanPath(const QDir& path);
     void rescanPath(const QString& path);
 
