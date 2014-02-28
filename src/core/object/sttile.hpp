@@ -13,9 +13,8 @@ Source file contributers:
 #include "core/object/stasset.hpp"
 
 #include <QString>
-#include <QVector>
 #include <QRectF>
-#include <QImage>
+#include <QFile>
 
 #include <memory>
 
@@ -31,9 +30,9 @@ public:
     Tile() = delete;
     Tile(const QString& path);
 
-    const TileInfo* info() const;
-    const MaterialRenderInfo* matRenderInfo() const;
-    const PlatformRenderInfo* platformRenderInfo() const;
+    const TileInfo& info() const { return *m_info; }
+    const MaterialRenderInfo& matRenderInfo() const { return *m_matRenderInfo; }
+    const PlatformRenderInfo& platformRenderInfo() const { return *m_platformRenderInfo; }
 
 private:
     struct TileInfo
@@ -57,13 +56,13 @@ public:
 
     const unsigned int variants() const { return m_variants; }
     const bool multiColoured() const { return m_multiColoured; }
-    const QImage& image() const { return *m_image; }
+    const QFile& image() const { return m_image; }
 
-    const QRectF& tile(const unsigned int& variant = 0, 
+    const QRectF tile(const unsigned int& variant = 0, 
         const unsigned int& colour = 0) const;
 
 private:
-    std::unique_ptr<QImage> m_image;
+    QFile m_image;
     unsigned int m_variants;
     bool m_multiColoured;
 };

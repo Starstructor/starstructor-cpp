@@ -10,7 +10,6 @@ Source file contributers:
 #include "core/object/sttile.hpp"
 #include "stexception.hpp"
 
-#include <QtOpenGL/qgl.h>
 #include <QFileInfo>
 #include <QDir>
 
@@ -61,18 +60,25 @@ Tile::Tile(const QString& path) : Asset(path)
 
 MaterialRenderInfo::MaterialRenderInfo(const unsigned int& variants, 
     const bool& multiColoured, const QString& framesPath)
-    : m_variants{ variants }, m_multiColoured{ multiColoured }
+    : m_image{ framesPath }, m_variants{ variants }, m_multiColoured{ multiColoured }
 {
-    m_image.reset(new QImage{ framesPath });
-
-    if (m_image->isNull())
+    if (!m_image.open(QIODevice::ReadOnly))
         throw FileNotFoundException{ "Unable to open file at " + framesPath };
 }
 
-const QRectF& MaterialRenderInfo::tile(const unsigned int& variant,
+const QRectF MaterialRenderInfo::tile(const unsigned int& variant,
     const unsigned int& colour) const
 {
-    return QRectF{};
+    const float X_OFFSET = 4.0f;
+    const float Y_OFFSET = 8.0f;
+
+    const float TILE_WIDTH = 8.0f;
+    const float TILE_HEIGHT = 8.0f;
+
+    return QRectF{ X_OFFSET,
+        Y_OFFSET, 
+        X_OFFSET + (variant * TILE_WIDTH), 
+        Y_OFFSET + (colour * TILE_HEIGHT) };
 }
 
 }
