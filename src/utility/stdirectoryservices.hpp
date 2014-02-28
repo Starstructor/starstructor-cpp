@@ -28,7 +28,8 @@ enum class DirectoryServicesFlag
     STRUCTURE   = 1 << 3,
     DUNGEON     = 1 << 4,
     WORLD       = 1 << 5,
-    SHIPWORLD   = 1 << 6,
+    SHIPWORLD = 1 << 6,
+    PLATFORM
 };
 
 Q_DECLARE_FLAGS(DirectoryServicesFlags, DirectoryServicesFlag);
@@ -43,9 +44,9 @@ public:
     void rescanPath(const QString& path);
 
     QList<QFileInfo> getFiles(const DirectoryServicesFlags flags = 
-        DirectoryServicesFlag::OBJECT   | DirectoryServicesFlag::MATERIAL |
-        DirectoryServicesFlag::NPC      | DirectoryServicesFlag::STRUCTURE |
-        DirectoryServicesFlag::DUNGEON  | DirectoryServicesFlag::WORLD |
+        DirectoryServicesFlag::OBJECT | DirectoryServicesFlag::MATERIAL |
+        DirectoryServicesFlag::NPC | DirectoryServicesFlag::STRUCTURE | 
+        DirectoryServicesFlag::DUNGEON | DirectoryServicesFlag::WORLD |
         DirectoryServicesFlag::SHIPWORLD) const;
 
     DirectoryServices() = delete;

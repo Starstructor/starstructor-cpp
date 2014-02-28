@@ -51,14 +51,25 @@ public:
     {}
 };
 
-class JsonInvalidFormat : public Exception
+class JsonInvalidFormatException : public Exception
 {
 public:
-    JsonInvalidFormat(const QString& message) noexcept
+    JsonInvalidFormatException(const QString& message) noexcept
         : Exception{ message, "JSON invalid format exception" }
     {}
 
-    virtual ~JsonInvalidFormat()
+    virtual ~JsonInvalidFormatException()
+    {}
+};
+
+class AssetLoadException : public Exception
+{
+public:
+    AssetLoadException(const QString& message) noexcept
+        : Exception{ message, "Asset load exception" }
+    {}
+
+    virtual ~AssetLoadException()
     {}
 };
 

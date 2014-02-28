@@ -49,10 +49,10 @@ void JsonFile::loadFromFile(const QString& path)
     {
         loadFromRawData(rawData);
     }
-    catch (const JsonInvalidFormat& ex)
+    catch (const JsonInvalidFormatException& ex)
     {
         const QString fileName{ QFileInfo{ file }.fileName() };
-        throw JsonInvalidFormat{ ex.message() + " from file " + fileName };
+        throw JsonInvalidFormatException{ ex.message() + " from file " + fileName };
     }
 }
 
@@ -64,10 +64,10 @@ void JsonFile::loadFromRawData(const QByteArray& rawData)
         &error);
 
     if (error.error != QJsonParseError::NoError)
-        throw JsonInvalidFormat{ error.errorString() };
+        throw JsonInvalidFormatException{ error.errorString() };
 
     else if (m_jsonDocument.isNull())
-        throw JsonInvalidFormat{ "Parsed document is null - empty file?" };
+        throw JsonInvalidFormatException{ "Parsed document is null - empty file?" };
 }
 
 QByteArray JsonFile::stripComments(const QByteArray& rawData)

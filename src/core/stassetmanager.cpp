@@ -12,7 +12,7 @@ Source file contributers:
 #include "stexception.hpp"
 #include "utility/sttimer.hpp"
 #include "core/object/stobject.hpp"
-#include "core/object/stmaterial.hpp"
+#include "core/object/sttile.hpp"
 #include "core/object/stnpc.hpp"
 
 #include <QFileInfo>
@@ -55,8 +55,8 @@ AssetManager::AssetManager(const Utility::DirectoryServices& services,
             if (assetType == "object")
                 m_assetMap[name].reset(new Object{ file.filePath() });
 
-            else if (assetType == "material")
-                m_assetMap[name].reset(new Material{ file.filePath() });
+            else if (assetType == "material" || assetType == "platform")
+                m_assetMap[name].reset(new Tile{ file.filePath() });
 
             else if (assetType == "npc")
                 m_assetMap[name].reset(new NPC{ file.filePath() });
@@ -64,6 +64,7 @@ AssetManager::AssetManager(const Utility::DirectoryServices& services,
         catch (const Exception& ex)
         {
             m_logger->writeLine(ex);
+            m_logger->writeLine("Failed to load asset " + name);
             continue;
         }
 

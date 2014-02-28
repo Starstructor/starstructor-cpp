@@ -14,7 +14,7 @@ Source file contributers:
 
 namespace Starstructor { namespace Core {
 
-class Object : public Asset
+class Object final : public Asset
 {
 public:
     Object() = delete;

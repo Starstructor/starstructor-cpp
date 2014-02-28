@@ -47,28 +47,11 @@ int main(int argc, char* argv[])
 
     auto worldList = dirServices.getFiles(Utility::DirectoryServicesFlag::WORLD);
 
-    Core::WorldFile testWorld{ worldList.first().filePath() };
-
-    int loopCount{};
-    Utility::Timer timer{};
-
 	while (window.isVisible())
     {
         try
         {
             application.processEvents(QEventLoop::ProcessEventsFlag::AllEvents);
-            ++loopCount;
-
-            const auto time = timer.getTime();
-
-            if (time >= 500)
-            {
-                log.writeLine(QString::number(loopCount) + " iterations in " 
-                    + QString::number(time) + "ms");
-
-                loopCount = 0;
-                timer.reset();
-            }
         }
         catch (const Starstructor::Exception& ex)
         {

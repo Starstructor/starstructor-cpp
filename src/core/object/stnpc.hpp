@@ -14,7 +14,7 @@ Source file contributers:
 
 namespace Starstructor { namespace Core {
 
-class NPC : public Asset
+class NPC final : public Asset
 {
 public:
     NPC() = delete;
