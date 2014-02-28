@@ -1,12 +1,10 @@
 /*
 Starstructor, the Starbound Toolet 
 Copyright (C) 2013-2014 Chris Stamford
+Licensed under terms of The MIT License (MIT)
 
 Source file contributers:
     Chris Stamford      contact: cstamford@gmail.com
-
-Licensed under the terms of the GPL.
-Contact: starstructor@gmail.com
 */
 
 #include "stexception.hpp"
@@ -15,6 +13,7 @@ Contact: starstructor@gmail.com
 #include "utility/stlogger.hpp"
 #include "utility/stdirectoryservices.hpp"
 #include "core/stassetmanager.hpp"
+#include "core/world/stworldfile.hpp"
 
 #include <QApplication>
 #include <QDir>
@@ -41,10 +40,14 @@ int main(int argc, char* argv[])
 
     Utility::Logger log{ logPath + fileName };
 
-    const QString path{ "A:/Development/starbound/assets/" };
+    const QString path{ "A:/Development/starbound/" };
     Utility::DirectoryServices dirServices{ path, log };
 
     Core::AssetManager assetManager{ dirServices, log };
+
+    auto worldList = dirServices.getFiles(Utility::DirectoryServicesFlag::WORLD);
+
+    Core::WorldFile testWorld{ worldList.first().filePath() };
 
     int loopCount{};
     Utility::Timer timer{};
