@@ -28,8 +28,7 @@ enum class DirectoryServicesFlag
     STRUCTURE   = 1 << 3,
     DUNGEON     = 1 << 4,
     WORLD       = 1 << 5,
-    SHIPWORLD = 1 << 6,
-    PLATFORM
+    SHIPWORLD   = 1 << 6,
 };
 
 Q_DECLARE_FLAGS(DirectoryServicesFlags, DirectoryServicesFlag);

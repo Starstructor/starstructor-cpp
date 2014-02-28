@@ -55,7 +55,7 @@ AssetManager::AssetManager(const Utility::DirectoryServices& services,
             if (assetType == "object")
                 m_assetMap[name].reset(new Object{ file.filePath() });
 
-            else if (assetType == "material" || assetType == "platform")
+            else if (assetType == "material")
                 m_assetMap[name].reset(new Tile{ file.filePath() });
 
             else if (assetType == "npc")
