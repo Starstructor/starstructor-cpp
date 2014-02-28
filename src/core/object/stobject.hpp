@@ -1,5 +1,5 @@
 /*
-Starstructor, the Starbound Toolet 
+Starstructor, the Starbound Toolset 
 Copyright (C) 2013-2014 Chris Stamford
 Licensed under terms of The MIT License (MIT)
 
