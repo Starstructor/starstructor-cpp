@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 {
     QApplication application{ argc, argv };
 
-    GUI::MainWindow window{};
+    MainWindow window{};
     window.show();
 
     const QString logPath = application.applicationDirPath() + "/logs/";
@@ -47,11 +47,27 @@ int main(int argc, char* argv[])
 
     auto worldList = dirServices.getFiles(Utility::DirectoryServicesFlag::WORLD);
 
+    Utility::Timer frameTimer{};
+    int frames{};
+
 	while (window.isVisible())
     {
         try
         {
             application.processEvents(QEventLoop::ProcessEventsFlag::AllEvents);
+            window.frame();
+
+            ++frames;
+            const auto frameTime = frameTimer.getTime();
+
+            if (frameTime >= 1000)
+            {
+                log.writeLine(QString::number(frames) + " frames in " +
+                    QString::number(frameTime) + "ms.");
+
+                frames = 0;
+                frameTimer.reset();
+            }
         }
         catch (const Starstructor::Exception& ex)
         {

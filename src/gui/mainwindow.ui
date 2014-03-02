@@ -45,6 +45,9 @@
       <property name="spacing">
        <number>6</number>
       </property>
+      <item row="0" column="0">
+       <widget class="EditorGLWidget" name="editorGlView" native="true"/>
+      </item>
      </layout>
     </item>
    </layout>
@@ -93,6 +96,14 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>EditorGLWidget</class>
+   <extends>QWidget</extends>
+   <header>steditorglwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../res/icon.qrc"/>
  </resources>

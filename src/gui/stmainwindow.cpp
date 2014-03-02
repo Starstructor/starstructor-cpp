@@ -9,14 +9,15 @@ Source file contributers:
 
 #include "gui/stmainwindow.hpp"
 
-namespace Starstructor { namespace GUI {
+#include <thread>
+
+void MainWindow::frame()
+{
+    m_mainWindow.editorGlView->updateGL();
+}
 
 MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow{parent}
+    QMainWindow{ parent }
 {
     m_mainWindow.setupUi(this);
-}
-
-}
-
 }

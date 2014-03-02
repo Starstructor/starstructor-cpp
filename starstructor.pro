@@ -7,9 +7,7 @@ console {
 	DEFINES += ST_NO_USE_CONSOLE
 }
 
-QT += core gui
-QT += widgets
-QT += opengl
+QT += core gui widgets opengl
 
 TARGET   = starstructor
 TEMPLATE = app
@@ -25,6 +23,7 @@ INCLUDEPATH += src/
 HEADERS += src/stexception.hpp
 HEADERS += src/ststlspecialisation.hpp
 HEADERS += src/gui/stmainwindow.hpp
+HEADERS += src/gui/steditorglwidget.hpp
 HEADERS += src/utility/sttimer.hpp
 HEADERS += src/utility/stlogger.hpp
 HEADERS += src/utility/stdirectoryservices.hpp
@@ -43,6 +42,7 @@ HEADERS += src/core/world/ststructurefile.hpp
 
 SOURCES += src/main.cpp
 SOURCES += src/gui/stmainwindow.cpp
+SOURCES += src/gui/steditorglwidget.cpp
 SOURCES += src/utility/sttimer.cpp
 SOURCES += src/utility/stlogger.cpp
 SOURCES += src/utility/stdirectoryservices.cpp

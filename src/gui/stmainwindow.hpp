@@ -10,10 +10,10 @@ Source file contributers:
 #ifndef STMAINWINDOW_HPP
 #define STMAINWINDOW_HPP
 
-#include <QMainWindow>
 #include "ui_mainwindow.h"
 
-namespace Starstructor { namespace GUI {
+#include <QMainWindow>
+#include <QThread>
 
 class MainWindow : public QMainWindow
 {
@@ -25,13 +25,10 @@ public:
     MainWindow(MainWindow&& other) = delete;
     MainWindow& operator=(const MainWindow& other) = delete;
 
+    void frame();
+
 private:
     Ui::ApplicationWindow m_mainWindow;
-
 };
-
-}
-
-}
 
 #endif // STMAINWINDOW_HPP
