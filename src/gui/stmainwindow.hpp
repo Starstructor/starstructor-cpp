@@ -13,7 +13,6 @@ Source file contributers:
 #include "ui_mainwindow.h"
 
 #include <QMainWindow>
-#include <QThread>
 
 class MainWindow : public QMainWindow
 {

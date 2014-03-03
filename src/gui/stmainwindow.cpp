@@ -9,8 +9,6 @@ Source file contributers:
 
 #include "gui/stmainwindow.hpp"
 
-#include <thread>
-
 void MainWindow::frame()
 {
     m_mainWindow.editorGlView->updateGL();

@@ -11,9 +11,6 @@ Source file contributers:
 #define STEDITORGLWIDGET_HPP
 
 #include <QGLWidget>
-#include <QThread>
-
-#include <mutex>
 
 class EditorGLWidget : public QGLWidget
 {

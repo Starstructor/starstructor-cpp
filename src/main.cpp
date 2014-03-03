@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     MainWindow window{};
     window.show();
 
-    const QString logPath = application.applicationDirPath() + "/logs/";
+    const QString logPath{ application.applicationDirPath() + "/logs/" };
     const QString fileName{ 
         QDateTime::currentDateTime().toString("MM-dd-yyyy_HH-mm-ss")
         + "_starstructor.txt" };
