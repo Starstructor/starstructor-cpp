@@ -17,7 +17,7 @@ namespace Starstructor { namespace Core {
 class WorldFile
 {
 public:
-    WorldFile(const QString& path);
+    explicit WorldFile(const QString& path);
 
 private:
 };

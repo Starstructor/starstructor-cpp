@@ -16,22 +16,23 @@ using std::mutex;
 namespace Starstructor { namespace Utility {
 
 DirectoryServices::DirectoryServices(const QDir& path, Utility::Logger& logger)
-    : m_logger{ &logger }, m_readWriteMutex{}
+    : m_logger(&logger)
 {
     rescanPath(path);
 }
 
 DirectoryServices::DirectoryServices(const QString& path, Utility::Logger& logger)
-    : DirectoryServices(QDir{ path }, logger)
-{}
+    : DirectoryServices(QDir(path), logger)
+{
+}
 
 void DirectoryServices::rescanPath(const QDir& path)
 {
-    const QList<QString> filters{ "object", "material", "npc",
+    const QList<QString> filters = { "object", "material", "npc",
         "structure", "dungeon", "world", "shipworld" };
 
-    QString msg{ "Scanning for all files in " + path.path()
-        + " with extensions:" };
+    QString msg =  "Scanning for all files in " + path.path()
+        + " with extensions:";
 
     for (const auto& filter : filters)
     {
@@ -40,21 +41,21 @@ void DirectoryServices::rescanPath(const QDir& path)
 
     m_logger->writeLine(msg);
 
-    Timer timer{};
+    Timer timer;
 
     const auto newFiles = getDirContents_r(path, filters);
-
-    lock_guard<mutex> lock{ m_readWriteMutex };
-    m_files = newFiles;
 
     m_logger->writeLine("Scanning complete in "
         + QString::number(timer.getTime()) + "ms. "
         + QString::number(m_files.count()) + " files found.");
+
+    lock_guard<mutex> lock(m_readWriteMutex);
+    m_files = std::move(newFiles);
 }
 
 void DirectoryServices::rescanPath(const QString& path)
 {
-    rescanPath(QDir{ path });
+    rescanPath(QDir(path));
 }
 
 QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags) const
@@ -67,11 +68,11 @@ QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags)
         DirectoryServicesFlag::DUNGEON  & DirectoryServicesFlag::WORLD &
         DirectoryServicesFlag::SHIPWORLD)
     {
-        lock_guard<mutex> lock{ m_readWriteMutex };
+        lock_guard<mutex> lock(m_readWriteMutex);
         return m_files;
     }
 
-    QList<QString> filters{};
+    QList<QString> filters;
 
     if (flags & DirectoryServicesFlag::OBJECT)
         filters.push_back("object");
@@ -99,12 +100,12 @@ QList<QFileInfo> DirectoryServices::getFiles(const DirectoryServicesFlags flags)
 
 QList<QFileInfo> DirectoryServices::getFilteredList(const QList<QString>& filters) const
 {
-    QList<QFileInfo> newList{};
-    lock_guard<mutex> lock{ m_readWriteMutex };
+    QList<QFileInfo> newList;
+    lock_guard<mutex> lock(m_readWriteMutex);
 
     for (const auto& file : m_files)
     { 
-        const QString suffix{ file.suffix() };
+        const QString suffix = file.suffix();
 
         for (const auto& filter : filters)
         {
@@ -119,17 +120,17 @@ QList<QFileInfo> DirectoryServices::getFilteredList(const QList<QString>& filter
 QList<QFileInfo> DirectoryServices::getDirContents_r(const QDir& directory,
     const QList<QString>& filters) const
 {
-    const QList<QFileInfo> fileList{ directory.entryInfoList(
-        QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot, QDir::DirsFirst) };
+    const QList<QFileInfo> fileList = directory.entryInfoList(
+        QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot, QDir::DirsFirst);
 
-    QList<QFileInfo> matchingFiles{};
+    QList<QFileInfo> matchingFiles;
 
     for (const auto& file : fileList)
     {
         if (file.isDir())
         {
             const auto recMatchingFiles = getDirContents_r(
-                QDir{ file.absoluteFilePath() }, filters);
+                QDir(file.absoluteFilePath()), filters);
 
             if (!recMatchingFiles.isEmpty())
                 matchingFiles += recMatchingFiles;

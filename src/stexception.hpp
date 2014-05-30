@@ -17,20 +17,22 @@ namespace Starstructor {
 class Exception
 {
 public:
-    Exception(const QString& message, 
-        const QString& exType = "General exception") noexcept
-        : m_message{ message }, m_exType{ exType }
-    {}
+    explicit Exception(const QString& message, const QString& exType = "General exception") 
+        : m_message(message), 
+        m_exType(exType)
+    {
+    }
 
     virtual ~Exception()
-    {}
+    {
+    }
 
-    QString what() const noexcept
+    QString what() const 
     {
         return m_exType + ": " + m_message;
     }
 
-    QString message() const noexcept
+    QString message() const 
     {
         return m_message;
     }
@@ -43,34 +45,40 @@ private:
 class FileNotFoundException : public Exception
 {
 public:
-    FileNotFoundException(const QString& message) noexcept
-        : Exception{ message, "File not found exception" }
-    {}
+    explicit FileNotFoundException(const QString& message)
+        : Exception(message, "File not found exception")
+    {  
+    }
 
     virtual ~FileNotFoundException()
-    {}
+    {
+    }
 };
 
 class JsonInvalidFormatException : public Exception
 {
 public:
-    JsonInvalidFormatException(const QString& message) noexcept
-        : Exception{ message, "JSON invalid format exception" }
-    {}
+    explicit JsonInvalidFormatException(const QString& message)
+        : Exception(message, "JSON invalid format exception")
+    {
+    }
 
     virtual ~JsonInvalidFormatException()
-    {}
+    {
+    }
 };
 
 class AssetLoadException : public Exception
 {
 public:
-    AssetLoadException(const QString& message) noexcept
-        : Exception{ message, "Asset load exception" }
-    {}
+    explicit AssetLoadException(const QString& message)
+        : Exception(message, "Asset load exception")
+    {     
+    }
 
     virtual ~AssetLoadException()
-    {}
+    {
+    }
 };
 
 }

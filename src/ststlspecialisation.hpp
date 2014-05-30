@@ -15,7 +15,7 @@ Source file contributers:
 
 namespace std
 {
-    template <>
+    template<>
     struct hash<QString>
     {
         size_t operator()(const QString& val) const

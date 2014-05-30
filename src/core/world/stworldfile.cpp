@@ -16,12 +16,12 @@ namespace Starstructor { namespace Core {
 
 WorldFile::WorldFile(const QString& path)
 {
-    QFile file{ path };
+    QFile file(path);
 
     if (!file.open(QIODevice::ReadOnly))
-        throw FileNotFoundException{ "Unable to open world file at " + path };
+        throw FileNotFoundException("Unable to open world file at " + path);
 
-    QByteArray rawData{ file.readAll() };
+    QByteArray rawData(file.readAll());
 }
 
 }

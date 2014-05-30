@@ -14,8 +14,10 @@ using namespace std::chrono;
 namespace Starstructor { namespace Utility {
 
 Timer::Timer(const TimerPrecision precision)
-    : m_initialTime{ high_resolution_clock::now() }, m_precision{ precision }
-{}
+    : m_initialTime(high_resolution_clock::now()), 
+    m_precision(precision)
+{
+}
 
 void Timer::setPrecision(const TimerPrecision precision)
 {

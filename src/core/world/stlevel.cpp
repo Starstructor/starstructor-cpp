@@ -12,11 +12,14 @@ Source file contributers:
 namespace Starstructor { namespace Core {
 
 Level::Level(const QString& path)
-    : Parseable{ path }
-{}
+    : Parseable(path)
+{
+}
 
 Level::~Level()
-{}
+{
+    
+}
 
 }
 

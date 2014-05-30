@@ -20,7 +20,7 @@ namespace Starstructor { namespace Core {
 class JsonFile final
 {
 public:
-    JsonFile(const QString& path);
+    explicit JsonFile(const QString& path);
     ~JsonFile();
 
     const QString& getFilePath() const;

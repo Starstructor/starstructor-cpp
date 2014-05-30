@@ -11,9 +11,9 @@ Source file contributers:
 
 namespace Starstructor { namespace Core {
 
-Object::Object(const QString& path) : Asset(path)
+Object::Object(const QString& path) 
+    : Asset(path)
 {
-
 }
 
 }

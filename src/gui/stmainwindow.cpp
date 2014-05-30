@@ -14,8 +14,8 @@ void MainWindow::frame()
     m_mainWindow.editorGlView->updateGL();
 }
 
-MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow{ parent }
+MainWindow::MainWindow(QWidget* parent) 
+    : QMainWindow(parent)
 {
     m_mainWindow.setupUi(this);
 }

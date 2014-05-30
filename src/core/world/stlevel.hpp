@@ -20,7 +20,7 @@ public:
     virtual ~Level() = 0;
 
 protected:
-    Level(const QString& path);
+    explicit Level(const QString& path);
 };
 
 }

@@ -22,33 +22,30 @@ Source file contributers:
 #include <QDateTime>
 
 #include <exception>
-#include <thread>
 
 using namespace Starstructor;
 
 int main(int argc, char* argv[])
 {
-    QApplication application{ argc, argv };
+    QApplication application(argc, argv);
 
-    MainWindow window{};
-    window.show();
+    const QString logPath = application.applicationDirPath() + "/logs/";
+    const QString logFileName = QDateTime::currentDateTime().toString("MM-dd-yyyy_HH-mm-ss")
+        + "_starstructor.txt";
 
-    const QString logPath{ application.applicationDirPath() + "/logs/" };
-    const QString fileName{ 
-        QDateTime::currentDateTime().toString("MM-dd-yyyy_HH-mm-ss")
-        + "_starstructor.txt" };
+    Utility::Logger log(logPath + logFileName);
+    // Temporary directory, used for testing -- to be replaced.
+    Utility::DirectoryServices dirServices("A:/Development/projects/starbound/", log);
 
-    Utility::Logger log{ logPath + fileName };
-
-    const QString path{ "A:/Development/starbound/" };
-    Utility::DirectoryServices dirServices{ path, log };
-
-    Core::AssetManager assetManager{ dirServices, log };
+    Core::AssetManager assetManager(dirServices, log);
 
     auto worldList = dirServices.getFiles(Utility::DirectoryServicesFlag::WORLD);
 
-    Utility::Timer frameTimer{};
-    int frames{};
+    MainWindow window;
+    window.show();
+
+    Utility::Timer frameTimer;
+    int frames = 0;
 
 	while (window.isVisible())
     {

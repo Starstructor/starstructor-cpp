@@ -19,10 +19,11 @@ using lockGuard = std::lock_guard<std::recursive_mutex>;
 namespace Starstructor { namespace Utility {
 
 Logger::Logger(const QString& path)
-    : m_failed{ false }, m_logFile{ path }, m_stream{}, m_writeMutex{}
+    : m_failed(false), 
+    m_logFile(path)
 {
     // Get the directory from the full path
-    const QDir dir{ QFileInfo{ m_logFile }.dir() };
+    const QDir dir(QFileInfo(m_logFile).dir());
 
     if (!dir.exists())
         dir.mkpath(".");
@@ -53,7 +54,7 @@ Logger::~Logger()
 
 Logger& Logger::operator<<(const char* input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -70,7 +71,7 @@ Logger& Logger::operator<<(const char* input)
 
 Logger& Logger::operator<<(const std::string& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -87,7 +88,7 @@ Logger& Logger::operator<<(const std::string& input)
 
 Logger& Logger::operator<<(const QString& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -104,7 +105,7 @@ Logger& Logger::operator<<(const QString& input)
 
 Logger& Logger::operator<<(const QVariant& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -121,7 +122,7 @@ Logger& Logger::operator<<(const QVariant& input)
 
 Logger& Logger::operator<<(const Exception& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -138,7 +139,7 @@ Logger& Logger::operator<<(const Exception& input)
 
 Logger& Logger::operator<<(const std::exception& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -155,7 +156,7 @@ Logger& Logger::operator<<(const std::exception& input)
 
 Logger& Logger::operator<<(const QTextStreamFunction& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
 
     if (!m_failed)
     {
@@ -168,84 +169,84 @@ Logger& Logger::operator<<(const QTextStreamFunction& input)
 
 void Logger::write(const char* input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input);
     *this << formattedInput;
 }
 
 void Logger::write(const std::string& input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input.c_str() };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input.c_str());
     *this << formattedInput;
 }
 
 void Logger::write(const QString& input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input);
     *this << formattedInput;
 }
 
 void Logger::write(const QVariant& input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input.toString() };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input.toString());
     *this << formattedInput;
 }
 
 void Logger::write(const Exception& input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input.what() };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input.what());
     *this << formattedInput;
 }
 
 void Logger::write(const std::exception& input)
 {
-    lockGuard lock{ m_writeMutex };
-    const QString formattedInput{ getTime() + input.what() };
+    lockGuard lock(m_writeMutex);
+    const QString formattedInput(getTime() + input.what());
     *this << formattedInput;
 }
 
 void Logger::writeLine(const char* input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
 
 void Logger::writeLine(const std::string& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
 
 void Logger::writeLine(const QString& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
 
 void Logger::writeLine(const QVariant& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
 
 void Logger::writeLine(const Exception& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
 
 void Logger::writeLine(const std::exception& input)
 {
-    lockGuard lock{ m_writeMutex };
+    lockGuard lock(m_writeMutex);
     write(input);
     *this << endl;
 }
@@ -257,7 +258,7 @@ bool Logger::fail() const
 
 QString Logger::getTime()
 {
-    const QString format{ "HH:mm:ss zzz" };
+    const QString format = "HH:mm:ss zzz";
     return "[" + QTime::currentTime().toString(format) + "] ";
 }
 

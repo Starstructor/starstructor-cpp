@@ -19,12 +19,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(QWidget* parent = nullptr);
+
+    void frame();
+
     MainWindow(const MainWindow& other) = delete;
     MainWindow(MainWindow&& other) = delete;
     MainWindow& operator=(const MainWindow& other) = delete;
-
-    void frame();
 
 private:
     Ui::ApplicationWindow m_mainWindow;

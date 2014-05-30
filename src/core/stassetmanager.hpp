@@ -26,7 +26,6 @@ namespace Starstructor { namespace Core {
 class AssetManager
 {
 public:
-    AssetManager() = delete;
     AssetManager(const Utility::DirectoryServices& services,  
         Utility::Logger& logger);
 

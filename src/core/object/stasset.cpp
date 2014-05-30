@@ -12,11 +12,13 @@ Source file contributers:
 namespace Starstructor { namespace Core {
 
 Asset::Asset(const QString& path)
-    : Parseable{ path }
-{}
+    : Parseable(path)
+{
+}
 
 Asset::~Asset()
-{}
+{ 
+}
 
 }
 

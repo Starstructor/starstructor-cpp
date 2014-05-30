@@ -25,7 +25,7 @@ enum class TimerPrecision
 class Timer
 {
 public:
-    Timer(const TimerPrecision precision = TimerPrecision::MILLISECONDS);
+    explicit Timer(const TimerPrecision precision = TimerPrecision::MILLISECONDS);
     void setPrecision(const TimerPrecision precision);
     void reset();
     long long getTime() const;

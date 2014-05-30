@@ -25,7 +25,7 @@ namespace Starstructor { namespace Utility {
 class Logger final
 {
 public:
-    Logger(const QString& path);
+    explicit Logger(const QString& path);
     ~Logger();
 
     Logger& operator<<(const char* input);
@@ -52,7 +52,6 @@ public:
 
     bool fail() const;
 
-    Logger() = delete;
     Logger(const Logger& other) = delete;
     Logger(Logger&& other) = delete;
     Logger& operator=(const Logger& other) = delete;

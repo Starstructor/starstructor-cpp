@@ -22,7 +22,7 @@ public:
     virtual ~Asset() = 0;
 
 protected:
-    Asset(const QString& path);
+    explicit Asset(const QString& path);
 };
 
 }

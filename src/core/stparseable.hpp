@@ -19,17 +19,15 @@ namespace Starstructor { namespace Core {
 class Parseable
 {
 public:
-    Parseable() = delete;
-    Parseable(const Parseable& other) = delete;
-    Parseable& operator=(const Parseable& other) = delete;
-
     virtual ~Parseable() = 0;
 
     JsonFile* getJsonFile();
 
+    Parseable(const Parseable& other) = delete;
+    Parseable& operator=(const Parseable& other) = delete;
+
 protected:
-    Parseable(const QString& path);
-    Parseable(Parseable&& other) = default;
+    explicit Parseable(const QString& path);
 
     JsonFile m_json;
 };

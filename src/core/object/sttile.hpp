@@ -7,8 +7,8 @@ Source file contributers:
     Chris Stamford      contact: cstamford@gmail.com
 */
 
-#ifndef STMATERIAL_HPP
-#define STMATERIAL_HPP
+#ifndef STTILE_HPP
+#define STTILE_HPP
 
 #include "core/object/stasset.hpp"
 
@@ -27,8 +27,7 @@ class Tile final : public Asset
     struct TileInfo;
 
 public:
-    Tile() = delete;
-    Tile(const QString& path);
+    explicit Tile(const QString& path);
 
     const TileInfo& info() const { return *m_info; }
     const MaterialRenderInfo& matRenderInfo() const { return *m_matRenderInfo; }
@@ -50,7 +49,6 @@ private:
 class MaterialRenderInfo
 {
 public:
-    MaterialRenderInfo() = delete;
     MaterialRenderInfo(const unsigned int& variants, const bool& multiColoured,
         const QString& framesPath);
 
@@ -75,4 +73,4 @@ class PlatformRenderInfo
 
 }
 
-#endif // STMATERIAL_HPP
+#endif // STTILE_HPP

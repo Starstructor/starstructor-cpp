@@ -37,8 +37,8 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(DirectoryServicesFlags);
 class DirectoryServices final
 {
 public:
-    DirectoryServices(const QDir& path, Utility::Logger& logger);
-    DirectoryServices(const QString& path, Utility::Logger& logger);
+    DirectoryServices(const QDir& path, Logger& logger);
+    DirectoryServices(const QString& path, Logger& logger);
     void rescanPath(const QDir& path);
     void rescanPath(const QString& path);
 
@@ -48,7 +48,6 @@ public:
         DirectoryServicesFlag::DUNGEON | DirectoryServicesFlag::WORLD |
         DirectoryServicesFlag::SHIPWORLD) const;
 
-    DirectoryServices() = delete;
     DirectoryServices(const DirectoryServices& other) = delete;
     DirectoryServices& operator=(const DirectoryServices& other) = delete;
     DirectoryServices(DirectoryServices&& other) = delete;
@@ -60,7 +59,7 @@ private:
         const QList<QString>& filters) const;
 
     QList<QFileInfo> m_files;
-    Utility::Logger* m_logger;
+    Logger* m_logger;
     mutable std::mutex m_readWriteMutex;
 };
 

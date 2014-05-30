@@ -17,8 +17,7 @@ namespace Starstructor { namespace Core {
 class NPC final : public Asset
 {
 public:
-    NPC() = delete;
-    NPC(const QString& path);
+    explicit NPC(const QString& path);
 
 private:
 };

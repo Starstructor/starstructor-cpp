@@ -17,8 +17,7 @@ namespace Starstructor { namespace Core {
 class Object final : public Asset
 {
 public:
-    Object() = delete;
-    Object(const QString& path);
+    explicit Object(const QString& path);
 
 private:
 };

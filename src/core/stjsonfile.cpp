@@ -17,13 +17,14 @@ Source file contributers:
 namespace Starstructor { namespace Core {
 
 JsonFile::JsonFile(const QString& path)
-    : m_filePath{ path }
+    : m_filePath(path)
 {
     loadFromFile(path);
 }
 
 JsonFile::~JsonFile()
-{}
+{
+}
 
 const QString& JsonFile::getFilePath() const
 {
@@ -37,12 +38,12 @@ const QJsonDocument& JsonFile::getJsonDocument() const
 
 void JsonFile::loadFromFile(const QString& path)
 {
-    QFile file{ path };
+    QFile file(path);
 
     if (!file.open(QIODevice::ReadOnly))
-        throw FileNotFoundException{ "Unable to open file at " + path };
+        throw FileNotFoundException("Unable to open file at " + path);
 
-    const QByteArray rawData{ file.readAll() };
+    const QByteArray rawData(file.readAll());
     file.close();
 
     try
@@ -51,34 +52,37 @@ void JsonFile::loadFromFile(const QString& path)
     }
     catch (const JsonInvalidFormatException& ex)
     {
-        const QString fileName{ QFileInfo{ file }.fileName() };
-        throw JsonInvalidFormatException{ ex.message() + " from file " + fileName };
+        const QString fileName = QFileInfo(file).fileName();
+        throw JsonInvalidFormatException(ex.message() + " from file " + fileName);
     }
 }
 
 void JsonFile::loadFromRawData(const QByteArray& rawData)
 {
-    QJsonParseError error{};
+    QJsonParseError error;
 
-    m_jsonDocument = QJsonDocument::fromJson(JsonFile::stripComments(rawData), 
+    m_jsonDocument = QJsonDocument::fromJson(stripComments(rawData), 
         &error);
 
     if (error.error != QJsonParseError::NoError)
-        throw JsonInvalidFormatException{ error.errorString() };
+        throw JsonInvalidFormatException(error.errorString());
 
     else if (m_jsonDocument.isNull())
-        throw JsonInvalidFormatException{ "Parsed document is null - empty file?" };
+        throw JsonInvalidFormatException("Parsed document is null - empty file?");
 }
 
 QByteArray JsonFile::stripComments(const QByteArray& rawData)
 {
-    QString formattedJson{ rawData };
+    // Starbound supports non-standard comments in JSON files, so we need to strip
+    // the comments from the file before parsing.
+
+    QString formattedJson(rawData);
 
     // Strip c++-style comments
-    formattedJson.replace(QRegularExpression{ R"(//(.*?)\n)" }, "");
+    formattedJson.replace(QRegularExpression(R"(//(.*?)\n)"), "");
 
     /* Strip c-style comments */
-    formattedJson.replace(QRegularExpression{ R"(/\*(.*)\*/)" }, "");
+    formattedJson.replace(QRegularExpression(R"(/\*(.*)\*/)"), "");
 
     return formattedJson.toUtf8();
 }
