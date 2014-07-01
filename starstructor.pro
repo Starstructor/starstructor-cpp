@@ -1,5 +1,6 @@
 CONFIG += qt
 CONFIG += console
+CONFIG += c++11
 
 console {
 	DEFINES += ST_USE_CONSOLE
@@ -19,6 +20,7 @@ QMAKE_CXXFLAGS += -std=c++11
 ## Source files
 
 INCLUDEPATH += src/
+INCLUDEPATH += src/gui/
 
 HEADERS += src/stexception.hpp
 HEADERS += src/ststlspecialisation.hpp
